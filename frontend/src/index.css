@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+html{
+  scroll-behavior: smooth;
+}
+
+body{
+    margin:0;
+    background:#120605;
+    color:white;
+    font-family:"IBM Plex Mono", monospace;
+}
+
+.pixel{
+    font-family:"Press Start 2P", cursive;
+}
+
+.small-pixel{
+    font-family: "Press Start 2p";
+    font-size: small;
+}
+@keyframes blinkBorder {
+
+    0% {
+
+        border-color: #f97316;
+
+    }
+
+    50% {
+
+        border-color: #ffb36b;
+
+    }
+
+    100% {
+
+        border-color: #f97316;
+
+    }
+
+}
+
+.retro-border{
+
+    animation: blinkBorder 1.5s infinite;
+
+}
+
+header{
+    box-shadow:0 0 20px rgba(249,115,22,.12);
+}
