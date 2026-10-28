@@ -3,7 +3,7 @@ import Hero from "./components/Hero";
 import Footer from "./components/Footer";
 import Background from "./components/Background";
 import CRT from "./components/CRT";
-import SkillCards from "./components/SkillTree";
+import SkillCards from "./components/SkillCards";
 import About from "./components/About";
 
 export default function App() {
