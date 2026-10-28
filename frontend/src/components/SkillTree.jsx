@@ -125,7 +125,6 @@ function SkillCard({ skill }) {
                     group-hover:-translate-y-1
                     ${flipped ? "[transform:rotateY(180deg)]" : ""}`}
       >
-        {/* ───────── FRONT ───────── */}
         <div
           aria-hidden={flipped}
           className="absolute inset-0 flex flex-col overflow-hidden rounded-xl border-2 border-[var(--c)]
@@ -133,7 +132,6 @@ function SkillCard({ skill }) {
                      [backface-visibility:hidden] [-webkit-backface-visibility:hidden]
                      group-hover:shadow-[0_0_0_1px_#000,0_0_26px_0_var(--c)]"
         >
-          {/* top row: power + type */}
           <div className="flex items-center justify-between px-1 pb-1.5">
             <span className="grid h-7 min-w-7 place-items-center rounded-full border border-[var(--c)] px-1 text-xs font-bold text-[var(--c)]">
               {skill.level}
@@ -141,23 +139,19 @@ function SkillCard({ skill }) {
             <span className="text-[10px] text-[#c9a98f]">{skill.group}</span>
           </div>
 
-          {/* art window */}
           <div className="relative grid flex-1 place-items-center overflow-hidden rounded-md border border-[var(--c)]/60
                           bg-[radial-gradient(circle_at_50%_40%,rgba(255,120,40,.28),#0a0605_70%)]">
             <Logo skill={skill} />
-            {/* holo sweep */}
             <div className="pointer-events-none absolute inset-0 -translate-x-full bg-[linear-gradient(110deg,transparent_35%,rgba(255,200,120,.28)_50%,transparent_65%)]
                             transition-transform duration-700 group-hover:translate-x-full motion-reduce:hidden" />
           </div>
 
-          {/* name banner */}
           <div className="mt-2 rounded-md border border-[var(--c)] bg-[var(--c)]/10 px-2 py-1.5 text-center">
             <div className="text-[13px] font-bold leading-tight text-[#f5e3d0]">{skill.name}</div>
           </div>
           <div className="pt-1.5 text-center text-[10px] text-[#8c6b55]">Tap to flip</div>
         </div>
 
-        {/* ───────── BACK ───────── */}
         <div
           aria-hidden={!flipped}
           className="absolute inset-0 flex flex-col overflow-hidden rounded-xl border-2 border-[var(--c)]
