@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import SystemStatus from "./SystemArchitecture";
+import SystemStatus from "./SystemStatus";
 
 const links = [
   { id: "home", num: "01", label: "HOME" },
