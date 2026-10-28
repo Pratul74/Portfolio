@@ -19,6 +19,11 @@ body{
     font-family: "Press Start 2p";
     font-size: small;
 }
+
+.tiny-pixel{
+    font-family: "Press Start 2p";
+    font-size: x-small;
+}
 @keyframes blinkBorder {
 
     0% {
