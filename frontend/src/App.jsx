@@ -3,8 +3,8 @@ import Hero from "./components/Hero";
 import Footer from "./components/Footer";
 import Background from "./components/Background";
 import CRT from "./components/CRT";
-import Terminal from "./components/Terminal";
-import TechStack from "./components/TechStack";
+import SkillCards from "./components/SkillTree";
+import About from "./components/About";
 
 export default function App() {
   return (
@@ -20,20 +20,17 @@ export default function App() {
         </section>
 
         <section id="about" className="min-h-screen scroll-mt-[90px]">
-          {/* put your About content here */}
-        </section>
-
-        <section id="projects" className="min-h-screen scroll-mt-[90px]">
-          <Terminal />
+          <About />
         </section>
 
         <section id="skills" className="min-h-screen scroll-mt-[90px]">
-          <TechStack />
+          <SkillCards />
         </section>
 
         <section id="contact" className="min-h-screen scroll-mt-[90px]">
-          <Footer />
+          
         </section>
+        <Footer />
       </div>
     </>
   );
