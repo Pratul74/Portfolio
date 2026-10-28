@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 const nodes = [
   { icon: "🌐", title: "Browser", subtitle: "Client" },
@@ -9,7 +10,8 @@ const nodes = [
 
 const services = ["API", "Redis", "RabbitMQ", "Database"];
 
-export default function SystemArchitecture() {
+
+function StatusPanel({ onClose }) {
   const [activeNode, setActiveNode] = useState(0);
 
   useEffect(() => {
@@ -21,9 +23,15 @@ export default function SystemArchitecture() {
 
   return (
     <div className="w-full border-2 border-orange-600 bg-[#1a0908] shadow-[0_0_30px_rgba(255,120,0,0.2)]">
-      {/* Header */}
-      <div className="border-b border-orange-600 px-5 py-3">
+      <div className="flex items-center justify-between border-b border-orange-600 px-5 py-3">
         <h2 className="text-sm font-bold tracking-wide">SYSTEM STATUS</h2>
+        <button
+          onClick={onClose}
+          aria-label="Close system status"
+          className="text-sm text-orange-500 transition hover:text-white"
+        >
+          [X]
+        </button>
       </div>
 
       {/* Pipeline */}
@@ -58,7 +66,6 @@ export default function SystemArchitecture() {
         ))}
       </div>
 
-      {/* Services */}
       <div className="border-t border-orange-600 px-5 py-4">
         <h3 className="mb-3 text-sm text-orange-500">SERVICES</h3>
 
@@ -75,5 +82,62 @@ export default function SystemArchitecture() {
         </div>
       </div>
     </div>
+  );
+}
+
+export function SystemStatusModal({ open, onClose }) {
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => e.key === "Escape" && onClose();
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-black/70 p-4 backdrop-blur-sm"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label="System status"
+    >
+      <div className="w-full max-w-md text-white" onClick={(e) => e.stopPropagation()}>
+        <StatusPanel onClose={onClose} />
+      </div>
+    </div>,
+    document.body
+  );
+}
+
+export function SysButton({ onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className="flex items-center gap-2 border border-orange-900 bg-orange-950/40 px-3 py-1.5 font-mono text-xs text-orange-400 transition hover:border-orange-500"
+      aria-label="Open system status"
+    >
+      <span className="relative flex h-2 w-2">
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
+        <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
+      </span>
+      SYS
+    </button>
+  );
+}
+
+export default function SystemStatus() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <SysButton onClick={() => setOpen(true)} />
+      <SystemStatusModal open={open} onClose={() => setOpen(false)} />
+    </>
   );
 }
