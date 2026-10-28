@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
+import SystemStatus from "./SystemArchitecture";
 
 const links = [
   { id: "home", num: "01", label: "HOME" },
   { id: "about", num: "02", label: "ABOUT" },
-  { id: "skills", num: "03", label: "SKILL TREE" },
+  { id: "skills", num: "03", label: "SKILL DECK" },
   { id: "contact", num: "04", label: "CONTACT" },
 ];
 
@@ -80,6 +81,8 @@ export default function Navbar() {
           >
             TERMINAL
           </a>
+
+          <SystemStatus />
         </div>
 
         <button
@@ -109,6 +112,9 @@ export default function Navbar() {
               <a href="#system-status" onClick={() => setOpen(false)} className="text-orange-300">
                 [TERMINAL]
               </a>
+            </li>
+            <li>
+              <SystemStatus />
             </li>
           </ul>
         </div>
