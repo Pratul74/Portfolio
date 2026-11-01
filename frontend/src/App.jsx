@@ -5,7 +5,7 @@ import Background from "./components/Background";
 import CRT from "./components/CRT";
 import Skills3D from "./components/SkillCards";
 import About from "./components/About";
-import Projects3D from "./components/Projects";
+import ProjectsDeck from "./components/Projects";
 import SignalContact from "./components/ContactForm";
 
 export default function App() {
@@ -29,8 +29,8 @@ export default function App() {
           <Skills3D />
         </section>
 
-        <section id="skills" className="min-h-screen scroll-mt-[90px]">
-          <Projects3D />
+        <section id="projects" className="min-h-screen scroll-mt-[90px]">
+          <ProjectsDeck />
         </section>
 
         <section id="contact" className="min-h-screen scroll-mt-[90px]">
