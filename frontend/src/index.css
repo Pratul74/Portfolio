@@ -1,5 +1,56 @@
 @import "tailwindcss";
 
+@theme {
+  --font-arcade: "Press Start 2P", ui-monospace, monospace;
+  --font-tech: "Share Tech Mono", ui-monospace, monospace;
+ 
+  --animate-pj-grid: pj-grid 4s linear infinite;
+  --animate-pj-sweep: pj-sweep 3.2s linear infinite;
+  --animate-pj-blink: pj-blink 1.4s steps(2, end) infinite;
+  --animate-pj-cursor: pj-blink 1s steps(2, end) infinite;
+  --animate-pj-win: pj-win 3s steps(2, end) infinite;
+  --animate-pj-fade: pj-fade 0.25s ease-out both;
+  --animate-pj-rise: pj-rise 0.45s ease-out both;
+  --animate-pj-float: pj-float 5s ease-in-out infinite;
+  --animate-pj-flip: pj-flip 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-pj-prism: pj-prism 5s linear infinite;
+  --animate-pj-spark: pj-spark 2.4s ease-in-out infinite;
+  --animate-pj-node: pj-node 5s ease-in-out infinite;
+  --animate-pj-crt-on: pj-crt-on 0.45s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+ 
+  @keyframes pj-grid { to { background-position: 0 46px; } }
+  @keyframes pj-sweep { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+  @keyframes pj-blink { 50% { opacity: 0.15; } }
+  @keyframes pj-win { 50% { opacity: 0.25; } }
+  @keyframes pj-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pj-rise {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes pj-float { 50% { transform: translateY(-7px); } }
+  @keyframes pj-flip {
+    from { transform: rotateY(180deg) scale(0.7); }
+    to { transform: none; }
+  }
+  @keyframes pj-prism {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+  @keyframes pj-spark {
+    0%, 100% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.6); opacity: 1; }
+  }
+  @keyframes pj-node {
+    0%, 34%, 100% { border-color: #5a2410; color: #ffb066; box-shadow: none; }
+    10%, 22% { border-color: var(--c); color: #fff1e0; box-shadow: 0 0 14px var(--c); }
+  }
+  @keyframes pj-crt-on {
+    0% { transform: scale(1, 0.004); filter: brightness(4); opacity: 0.6; }
+    55% { transform: scale(1, 0.04); filter: brightness(3); }
+    100% { transform: none; filter: none; opacity: 1; }
+  }
+}
+
 html{
   scroll-behavior: smooth;
 }
