@@ -1,10 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Pause, Play, RotateCcw, Volume2, VolumeX } from "lucide-react";
 
-/* ------------------------------------------------------------------ */
-/*  DATA – edit freely                                                 */
-/*  az / el / r place each node on a sphere around the Python hub      */
-/* ------------------------------------------------------------------ */
+
 const GROUP_COLOR = { Backend: "#ff6a00", "Agentic AI": "#ffb000", "Data & Infra": "#ff3d5a" };
 const GROUPS = ["All", "Backend", "Agentic AI", "Data & Infra"];
 const CDN = "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/";
@@ -110,9 +107,6 @@ const groupAvg = (g) => {
   return Math.round(list.reduce((n, s) => n + s.level, 0) / list.length);
 };
 
-/* ------------------------------------------------------------------ */
-/*  CSS                                                                */
-/* ------------------------------------------------------------------ */
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap');
 .sk-arcade{font-family:'Press Start 2P',ui-monospace,monospace}
@@ -138,9 +132,7 @@ const CSS = `
 @media (prefers-reduced-motion:reduce){.sk-radar,.sk-core,.sk-ping,.sk-led,.sk-cursor,.sk-rise,.sk-boot,.sk-orbit{animation:none!important}}
 `;
 
-/* ------------------------------------------------------------------ */
-/*  Helpers                                                            */
-/* ------------------------------------------------------------------ */
+
 function Logo({ skill, className = "h-8 w-8", textClass = "text-xs" }) {
   const [failed, setFailed] = useState(false);
   const color = GROUP_COLOR[skill.group];
@@ -174,9 +166,6 @@ function useTypewriter(text, speed = 14) {
   return text.slice(0, n);
 }
 
-/* ------------------------------------------------------------------ */
-/*  Detail panel                                                       */
-/* ------------------------------------------------------------------ */
 function Decompile({ skill, onPick, onReset }) {
   const color = GROUP_COLOR[skill.group];
   const tiltRef = useRef(null);
@@ -308,9 +297,7 @@ function Decompile({ skill, onPick, onReset }) {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Main                                                               */
-/* ------------------------------------------------------------------ */
+
 export default function Skills3D() {
   const stageRef = useRef(null);
   const canvasRef = useRef(null);
@@ -338,7 +325,6 @@ export default function Skills3D() {
   useEffect(() => { sim.current.filter = filter; }, [filter]);
   useEffect(() => { sim.current.hover = hover; }, [hover]);
 
-  /* sizing + star dust */
   useEffect(() => {
     const el = stageRef.current;
     const calc = () => {
@@ -362,7 +348,6 @@ export default function Skills3D() {
     return () => ro.disconnect();
   }, []);
 
-  /* sound */
   const beep = useCallback((type, f1, f2, dur, vol) => {
     if (!sim.current.sound) return;
     try {
@@ -381,10 +366,9 @@ export default function Skills3D() {
       g.connect(ctx.destination);
       o.start(t);
       o.stop(t + dur);
-    } catch (e) { /* audio is optional */ }
+    } catch (e) {  }
   }, []);
 
-  /* camera helpers */
   const aimAt = useCallback((x, y, z) => {
     const s = sim.current;
     const rho = Math.hypot(x, z);
@@ -427,7 +411,6 @@ export default function Skills3D() {
     beep("square", 440, 880, 0.09, 0.06);
   }, [aimAt, beep]);
 
-  /* render loop */
   useEffect(() => {
     const s = sim.current;
     const rm = reducedMotion();
@@ -445,7 +428,6 @@ export default function Skills3D() {
       if (s.introT0 === null) s.introT0 = now;
       s.intro = rm ? 1 : clamp((now - s.introT0) / 1700, 0, 1);
 
-      /* camera physics */
       if (!s.dragging) {
         if (s.focus) {
           const k = 1 - Math.exp(-dt / 140);
@@ -478,13 +460,11 @@ export default function Skills3D() {
         return { x: cx + x1 * f, y: cy + y2 * f, z: z2, f };
       };
 
-      /* HUD readout */
       if (yawText.current) {
         const deg = (((s.yaw * 180) / Math.PI) % 360 + 360) % 360;
         yawText.current.textContent = `YAW ${String(Math.round(deg)).padStart(3, "0")}°  PITCH ${pitch >= 0 ? "+" : "-"}${String(Math.round(Math.abs(pitch * 57.3))).padStart(2, "0")}°`;
       }
 
-      /* project nodes (with boot-up expansion) */
       const P = SKILLS.map((sk, i) => {
         const p = clamp(s.intro * 1.6 - i * 0.07, 0, 1);
         const e = 1 - Math.pow(1 - p, 3);
@@ -499,7 +479,6 @@ export default function Skills3D() {
       ctx.clearRect(0, 0, w, h);
       ctx.lineCap = "butt";
 
-      /* star dust */
       s.stars.forEach((st) => {
         const p = proj(st.x * R * 1.9, st.y * R * 1.9, st.z * R * 1.9);
         const a = (0.15 + 0.5 * Math.abs(Math.sin(now / 900 + st.t))) * (0.4 + 0.6 * ((p.z / (R * 1.9) + 1) / 2)) * s.intro;
@@ -508,7 +487,6 @@ export default function Skills3D() {
         ctx.fillRect(Math.round(p.x), Math.round(p.y), sz, sz);
       });
 
-      /* orbit rings */
       const ring = (rx, rz, rad, alpha) => {
         let prev = null;
         for (let i = 0; i <= 96; i++) {
@@ -540,7 +518,6 @@ export default function Skills3D() {
       ctx.strokeStyle = "#ffb000";
       ring(0, 0, R * 0.62, 0.2);
 
-      /* links */
       const focalId = s.hover || s.sel;
       const fi = IDX[focalId];
       const focalColor = GROUP_COLOR[SKILLS[fi].group];
@@ -573,7 +550,6 @@ export default function Skills3D() {
       ctx.globalAlpha = 1;
       ctx.setLineDash([]);
 
-      /* nodes */
       SKILLS.forEach((sk, i) => {
         const el = nodeEls.current[i];
         if (!el) return;
@@ -660,23 +636,21 @@ export default function Skills3D() {
       <style>{CSS}</style>
 
       <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-        {/* <div className="absolute inset-0" style={{ background: "radial-gradient(55% 45% at 35% 50%, rgba(255,90,20,.18), transparent 70%), linear-gradient(#070404, #100605 60%, #070404)" }} /> */}
+        <div className="absolute inset-0" style={{ background: "radial-gradient(55% 45% at 35% 50%, rgba(255,90,20,.18), transparent 70%), linear-gradient(#070404, #100605 60%, #070404)" }} />
         <div className="sk-dots absolute inset-0 opacity-[.07]" />
         <div className="sk-scan absolute inset-0 opacity-60" />
       </div>
 
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <header className="mb-8 text-center">
-          <p className="sk-mono text-sm text-[#ff6a00]">[ SKILL DECK ]</p>
           <h2 className="sk-arcade mt-4 text-3xl text-[#fff3e6] sm:text-5xl" style={{ textShadow: "4px 4px 0 #7a2a00" }}>
-            My Skills
+            TECH MATRIX
           </h2>
           <p className="sk-mono mx-auto mt-5 max-w-xl text-base text-[#c9906a]">
             Drag to orbit the map. Click a node to open it, and follow the lines to see what each skill connects to.
           </p>
         </header>
 
-        {/* filters */}
         <div className="mb-4 flex flex-wrap items-center justify-center gap-2" role="group" aria-label="Filter skills by group">
           {GROUPS.map((g) => {
             const active = filter === g;
@@ -700,7 +674,6 @@ export default function Skills3D() {
         </div>
 
         <div className="grid items-stretch gap-5 lg:grid-cols-3">
-          {/* 3D stage */}
           <div
             ref={stageRef}
             tabIndex={0}
@@ -767,7 +740,6 @@ export default function Skills3D() {
               );
             })}
 
-            {/* HUD overlays */}
             {["left-2 top-2 border-l-2 border-t-2", "right-2 top-2 border-r-2 border-t-2", "bottom-2 left-2 border-b-2 border-l-2", "bottom-2 right-2 border-b-2 border-r-2"].map((c) => (
               <span key={c} className={`pointer-events-none absolute h-4 w-4 border-[#ff6a00] ${c}`} />
             ))}
@@ -785,7 +757,6 @@ export default function Skills3D() {
               <span className="hidden shrink-0 text-[#8a5a40] sm:inline">DRAG TO ORBIT</span>
             </div>
 
-            {/* controls */}
             <div className="absolute bottom-12 right-4 z-[2000] flex gap-2">
               <button
                 type="button"
@@ -806,11 +777,9 @@ export default function Skills3D() {
             </div>
           </div>
 
-          {/* detail panel */}
           <Decompile skill={skill} onPick={pick} onReset={reset} />
         </div>
 
-        {/* deck strip */}
         <div className="mt-5 flex gap-2.5 overflow-x-auto pb-2" role="list" aria-label="All skills">
           {SKILLS.map((s) => {
             const color = GROUP_COLOR[s.group];
