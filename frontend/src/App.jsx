@@ -3,10 +3,10 @@ import Hero from "./components/Hero";
 import Footer from "./components/Footer";
 import Background from "./components/Background";
 import CRT from "./components/CRT";
-import Skills3D from "./components/SkillCards";
+import Skills3D from "./components/Skill3D";
 import About from "./components/About";
-import ProjectsDeck from "./components/Projects";
-import SignalContact from "./components/ContactForm";
+import ProjectsDeck from "./components/ProjectsDeck";
+import SignalContact from "./components/SignalContact";
 
 export default function App() {
   return (
