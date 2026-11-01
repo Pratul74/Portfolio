@@ -34,7 +34,6 @@ function StatusPanel({ onClose }) {
         </button>
       </div>
 
-      {/* Pipeline */}
       <div className="px-5 py-5">
         {nodes.map((node, index) => (
           <div key={node.title}>
