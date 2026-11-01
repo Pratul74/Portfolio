@@ -310,7 +310,6 @@ export default function Navbar() {
           </div>
 
           <div className="nv-row relative flex items-center justify-between gap-3 p-2">
-            {/* brand */}
             <a href="#home" className="nv-logo" onClick={() => goTo("home")} onPointerEnter={hoverSound} aria-label="Pratul dev, back to top">
               <span className="nv-pixel text-2xl" style={{ color: "var(--a)" }}>
                 &gt;
@@ -321,7 +320,6 @@ export default function Navbar() {
               <span className="nv-cursor" aria-hidden="true" />
             </a>
 
-            {/* flip-card links */}
             <ul className="m-0 hidden list-none items-center gap-1 p-0 lg:flex xl:gap-2">
               {LINKS.map(({ id, num, label, tag }) => (
                 <li
@@ -349,7 +347,6 @@ export default function Navbar() {
               ))}
             </ul>
 
-            {/* controls */}
             <div className="nv-ctrl">
               <button
                 type="button"
@@ -411,7 +408,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* mobile menu */}
         <div id="nv-menu" className={`nv-panel ${open ? "is-open" : ""}`}>
           <div className="overflow-hidden rounded-[1.25rem]">
             <div className="nv-panel-inner p-2">
