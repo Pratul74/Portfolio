@@ -1,17 +1,5 @@
 import { useRef, useState, useCallback } from "react";
 
-/**
- * SignalContact — 3D tilt + flip contact form
- * Matches the PRATUL.DEV retro-terminal look (orange/red on near-black).
- *
- * Setup (30 seconds):
- * 1. Create a free form at https://formspree.io and copy the endpoint,
- *    e.g. https://formspree.io/f/abcdwxyz
- * 2. Pass it as a prop:  <SignalContact endpoint="https://formspree.io/f/abcdwxyz" />
- *    (or read it from an env var: import.meta.env.VITE_FORM_ENDPOINT / process.env.REACT_APP_FORM_ENDPOINT)
- * 3. Without an endpoint the form runs in demo mode (fake 1.8s send) so you can test the animation.
- */
-
 const C = {
   bg: "#0a0405",
   panel: "#120607",
@@ -24,7 +12,6 @@ const C = {
 const MAX_LEN = 600;
 const emailOk = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
-/* Expanding rings, used on the back face and while sending */
 function SignalRings({ active }) {
   return (
     <div className="relative h-24 w-24">
@@ -74,7 +61,7 @@ export default function SignalContact({ endpoint = "" }) {
 
   const [values, setValues] = useState({ name: "", email: "", message: "", company: "" });
   const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+  const [status, setStatus] = useState("idle");
   const [flipped, setFlipped] = useState(false);
   const [ripples, setRipples] = useState([]);
   const [shakeKey, setShakeKey] = useState(0);
@@ -86,7 +73,6 @@ export default function SignalContact({ endpoint = "" }) {
     setTimeout(() => setRipples((rs) => rs.filter((x) => x.id !== id)), 650);
   };
 
-  /* ---------- 3D tilt that follows the pointer ---------- */
   const handleMove = useCallback(
     (e) => {
       if (flipped || status === "sending" || !tiltRef.current || !wrapRef.current) return;
@@ -102,8 +88,6 @@ export default function SignalContact({ endpoint = "" }) {
   const resetTilt = useCallback(() => {
     if (tiltRef.current) tiltRef.current.style.transform = "rotateX(0deg) rotateY(0deg)";
   }, []);
-
-  /* ---------- form logic ---------- */
   const onChange = (e) => {
     const { name, value } = e.target;
     setValues((v) => ({ ...v, [name]: name === "message" ? value.slice(0, MAX_LEN) : value }));
@@ -122,7 +106,7 @@ export default function SignalContact({ endpoint = "" }) {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (status === "sending" || values.company) return; // honeypot
+    if (status === "sending" || values.company) return;
     if (!validate()) return;
 
     setStatus("sending");
@@ -139,7 +123,7 @@ export default function SignalContact({ endpoint = "" }) {
         });
         if (!res.ok) throw new Error("Request failed");
       } else {
-        await new Promise((r) => setTimeout(r, 1800)); // demo mode
+        await new Promise((r) => setTimeout(r, 1800));
       }
       setStatus("sent");
       resetTilt();
