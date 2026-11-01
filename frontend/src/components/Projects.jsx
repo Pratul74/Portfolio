@@ -21,6 +21,7 @@ import {
   Zap,
 } from "lucide-react";
 
+
 const ICONS = { zap: Zap, cpu: Cpu, server: Server, terminal: Terminal, activity: Activity, database: Database };
 
 const RARITY = {
@@ -39,7 +40,7 @@ const PROJECTS = [
     accent: "#ff6a00",
     status: "LIVE",
     power: 96,
-    rarity: "LEGENDARY",
+    rarity: "LEGENDARY", // (placeholder)
     type: "API GATEWAY",
     cost: 4,
     version: "3.2",
@@ -258,49 +259,13 @@ const HINTS = {
   grid: "All six cards dealt · Hover to lift · Click to inspect",
   ring: "Drag or swipe to spin · Click the front card to open it · Use ← →",
 };
+// pixel-notched card corners (Tailwind arbitrary property)
+const NOTCH =
+  "[clip-path:polygon(0_8px,4px_8px,4px_4px,8px_4px,8px_0,calc(100%_-_8px)_0,calc(100%_-_8px)_4px,calc(100%_-_4px)_4px,calc(100%_-_4px)_8px,100%_8px,100%_calc(100%_-_8px),calc(100%_-_4px)_calc(100%_-_8px),calc(100%_-_4px)_calc(100%_-_4px),calc(100%_-_8px)_calc(100%_-_4px),calc(100%_-_8px)_100%,8px_100%,8px_calc(100%_-_4px),4px_calc(100%_-_4px),4px_calc(100%_-_8px),0_calc(100%_-_8px))]";
 const noop = () => {};
 const reducedMotion = () =>
   typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 const frontPos = (angle) => (((Math.round(-angle / STEP) % N) + N) % N);
-
-const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap');
-.pj-arcade{font-family:'Press Start 2P',ui-monospace,monospace}
-.pj-mono{font-family:'Share Tech Mono',ui-monospace,monospace}
-.pj-notch{clip-path:polygon(0 8px,4px 8px,4px 4px,8px 4px,8px 0,calc(100% - 8px) 0,calc(100% - 8px) 4px,calc(100% - 4px) 4px,calc(100% - 4px) 8px,100% 8px,100% calc(100% - 8px),calc(100% - 4px) calc(100% - 8px),calc(100% - 4px) calc(100% - 4px),calc(100% - 8px) calc(100% - 4px),calc(100% - 8px) 100%,8px 100%,8px calc(100% - 4px),4px calc(100% - 4px),4px calc(100% - 8px),0 calc(100% - 8px))}
-.pj-scan{background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 3px)}
-.pj-grid{background-image:linear-gradient(rgba(255,106,0,.45) 1px,transparent 1px),linear-gradient(90deg,rgba(255,106,0,.45) 1px,transparent 1px);background-size:46px 46px;animation:pjGrid 4s linear infinite;-webkit-mask-image:radial-gradient(closest-side,#000 20%,transparent 100%);mask-image:radial-gradient(closest-side,#000 20%,transparent 100%)}
-.pj-ticks{background:repeating-conic-gradient(from 0deg,rgba(255,170,80,.95) 0 .7deg,transparent .7deg 5deg);-webkit-mask-image:radial-gradient(closest-side,transparent 0 91%,#000 92% 99%,transparent 100%);mask-image:radial-gradient(closest-side,transparent 0 91%,#000 92% 99%,transparent 100%)}
-.pj-beam{background:linear-gradient(180deg,rgba(255,120,40,.2),transparent 85%);filter:blur(2px);transform-origin:top center}
-.pj-sweep{background:linear-gradient(180deg,transparent,rgba(255,200,140,.22),transparent);animation:pjSweep 3.2s linear infinite}
-.pj-led{animation:pjBlink 1.4s steps(2,end) infinite}
-.pj-cursor{animation:pjBlink 1s steps(2,end) infinite}
-.pj-win{animation:pjWin 3s steps(2,end) infinite}
-.pj-crt-on{animation:pjCrtOn .45s cubic-bezier(.2,.9,.3,1) both}
-.pj-fade{animation:pjFade .25s ease-out both}
-.pj-rise{animation:pjRise .45s ease-out both}
-.pj-float{animation:pjFloat 5s ease-in-out infinite}
-.pj-flipin{animation:pjFlip .9s cubic-bezier(.2,.8,.2,1) both}
-.pj-prism{background-size:300% 300%!important;animation:pjPrism 5s linear infinite}
-.pj-foil{background-size:260% 260%;background-position:var(--mx,50%) var(--my,50%);mix-blend-mode:screen;transition:opacity .25s}
-.pj-spark{position:absolute;width:3px;height:3px;background:#ffe2b8;box-shadow:0 0 6px #ffb000;animation:pjSpark 2.4s ease-in-out infinite}
-.pj-node{animation:pjNode 5s ease-in-out infinite}
-.pj-log{animation:pjRise .35s ease-out both}
-@keyframes pjGrid{to{background-position:0 46px}}
-@keyframes pjSweep{0%{transform:translateY(-100%)}100%{transform:translateY(100%)}}
-@keyframes pjBlink{50%{opacity:.15}}
-@keyframes pjWin{50%{opacity:.25}}
-@keyframes pjFade{from{opacity:0}to{opacity:1}}
-@keyframes pjRise{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
-@keyframes pjFloat{50%{transform:translateY(-7px)}}
-@keyframes pjFlip{from{transform:rotateY(180deg) scale(.7)}to{transform:none}}
-@keyframes pjPrism{0%{background-position:0% 50%}100%{background-position:300% 50%}}
-@keyframes pjSpark{0%,100%{transform:scale(0);opacity:0}50%{transform:scale(1.6);opacity:1}}
-@keyframes pjNode{0%,34%,100%{border-color:#5a2410;color:#ffb066;box-shadow:none}10%,22%{border-color:var(--c);color:#fff1e0;box-shadow:0 0 14px var(--c)}}
-@keyframes pjCrtOn{0%{transform:scale(1,.004);filter:brightness(4);opacity:.6}55%{transform:scale(1,.04);filter:brightness(3)}100%{transform:none;filter:none;opacity:1}}
-@media (prefers-reduced-motion:reduce){.pj-grid,.pj-sweep,.pj-led,.pj-cursor,.pj-win,.pj-crt-on,.pj-fade,.pj-rise,.pj-float,.pj-flipin,.pj-prism,.pj-spark,.pj-node,.pj-log{animation:none!important}}
-`;
-
 
 function rng(seed) {
   let a = seed >>> 0;
@@ -312,6 +277,7 @@ function rng(seed) {
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
 }
+
 
 function Skyline({ seed, accent }) {
   const shapes = useMemo(() => {
@@ -350,7 +316,7 @@ function Skyline({ seed, accent }) {
           {b.ant && (
             <>
               <rect x={b.x + b.w / 2 - 0.5} y={56 - b.h - 6} width="1" height="6" fill="#4a1a0c" />
-              <rect x={b.x + b.w / 2 - 1} y={56 - b.h - 7} width="2" height="2" fill={accent} className="pj-led" />
+              <rect x={b.x + b.w / 2 - 1} y={56 - b.h - 7} width="2" height="2" fill={accent} className="animate-pj-blink motion-reduce:animate-none" />
             </>
           )}
         </g>
@@ -364,28 +330,11 @@ function Skyline({ seed, accent }) {
           height="2"
           fill={w.hot ? "#ffd9a8" : accent}
           opacity=".85"
-          className={w.flick ? "pj-win" : undefined}
+          className={w.flick ? "animate-pj-win motion-reduce:animate-none" : undefined}
           style={w.flick ? { animationDelay: `${w.d}s` } : undefined}
         />
       ))}
     </svg>
-  );
-}
-
-function PowerBar({ value, accent }) {
-  const on = Math.round(value / 10);
-  return (
-    <div className="flex items-center gap-2">
-      <span className="pj-arcade text-[7px] text-[#c9906a]">PWR</span>
-      <div className="flex flex-1 gap-[2px]">
-        {Array.from({ length: 10 }).map((_, i) => (
-          <span key={i} className="h-2 flex-1" style={{ background: i < on ? accent : "#26110a" }} />
-        ))}
-      </div>
-      <span className="pj-mono text-[11px]" style={{ color: accent }}>
-        {value}
-      </span>
-    </div>
   );
 }
 
@@ -463,6 +412,7 @@ function Pips({ count, color }) {
   );
 }
 
+
 const TCGCard = memo(function TCGCard({
   p, idx, t, o, w, h, placed = true, slow, delay = 0, hot, tiltable, floating, compact, isTop, onActivate, onHover,
 }) {
@@ -523,104 +473,104 @@ const TCGCard = memo(function TCGCard({
       onPointerLeave={onLeave}
       onClick={() => onActivate(idx)}
     >
-      <div className={floating ? "pj-float" : undefined} style={{ position: "absolute", inset: 0, transformStyle: "preserve-3d" }}>
+      <div className={floating ? "animate-pj-float motion-reduce:animate-none" : undefined} style={{ position: "absolute", inset: 0, transformStyle: "preserve-3d" }}>
         <div ref={tilt} style={{ position: "absolute", inset: 0, transformStyle: "preserve-3d", transition: "transform .15s ease-out" }}>
-
           <div className="absolute inset-0" style={face}>
             <div
               className={`pointer-events-none absolute -inset-4 transition-opacity duration-300 group-hover:opacity-90 ${isTop ? "opacity-40" : "opacity-0"}`}
               style={{ background: `radial-gradient(closest-side, ${p.accent}88, transparent 78%)`, filter: "blur(16px)" }}
             />
-            <div className={`pj-notch absolute inset-0 ${p.rarity === "LEGENDARY" ? "pj-prism" : ""}`} style={{ background: border }}>
-              <div className="pj-notch absolute flex flex-col gap-2 p-3" style={{ inset: 3, background: "#0b0605" }}>
+            <div className={`${NOTCH} absolute inset-0 ${p.rarity === "LEGENDARY" ? "animate-pj-prism motion-reduce:animate-none bg-[length:300%_300%]" : ""}`} style={{ backgroundImage: border }}>
+              <div className={`${NOTCH} absolute flex flex-col gap-2 p-3`} style={{ inset: 3, background: "#0b0605" }}>
 
                 <div className="flex items-center justify-between">
-                  <span className="pj-arcade text-[8px]" style={{ color: p.accent }}>
+                  <span className="font-arcade text-[8px]" style={{ color: p.accent }}>
                     {String(idx + 1).padStart(3, "0")}/{String(N).padStart(3, "0")}
                   </span>
-                  <span className="pj-mono flex items-center gap-1 border border-[#5a2410] bg-[#150a07] px-1.5 py-0.5 text-[11px] text-[#ffcfa3]">
+                  <span className="font-tech flex items-center gap-1 border border-[#5a2410] bg-[#150a07] px-1.5 py-0.5 text-[11px] text-[#ffcfa3]">
                     <Zap className="h-3 w-3" style={{ color: p.accent }} /> COST {p.cost}
                   </span>
                 </div>
 
                 <div className="relative shrink-0 overflow-hidden border border-[#3a1808]" style={{ height: compact ? 84 : 108 }}>
                   <Skyline seed={idx + 3} accent={p.accent} />
-                  <div className="pj-sweep absolute inset-x-0 top-0 h-1/2" />
-                  <div className="pj-scan absolute inset-0" />
+                  <div className="bg-[linear-gradient(180deg,transparent,rgba(255,200,140,.22),transparent)] animate-pj-sweep motion-reduce:animate-none absolute inset-x-0 top-0 h-1/2" />
+                  <div className="bg-[repeating-linear-gradient(0deg,rgba(0,0,0,.28)_0_1px,transparent_1px_3px)] absolute inset-0" />
                   <div
                     className="absolute left-2 top-2 flex h-8 w-8 items-center justify-center border-2 bg-[#0b0605]/80"
                     style={{ borderColor: p.accent, color: p.accent }}
                   >
                     <Icon className="h-4 w-4" />
                   </div>
-                  <span className="pj-mono absolute right-2 top-2 flex items-center gap-1.5 bg-[#0b0605]/80 px-1.5 py-0.5 text-[10px] text-[#ffcfa3]">
-                    <span className="pj-led inline-block h-1.5 w-1.5" style={{ background: p.status === "BETA" ? "#ffd166" : "#3dff8b" }} />
+                  <span className="font-tech absolute right-2 top-2 flex items-center gap-1.5 bg-[#0b0605]/80 px-1.5 py-0.5 text-[10px] text-[#ffcfa3]">
+                    <span className="animate-pj-blink motion-reduce:animate-none inline-block h-1.5 w-1.5" style={{ background: p.status === "BETA" ? "#ffd166" : "#3dff8b" }} />
                     {p.status}
                   </span>
-                  <span className="pj-mono absolute bottom-1.5 left-2 text-[10px] text-[#ffb066]">
+                  <span className="font-tech absolute bottom-1.5 left-2 text-[10px] text-[#ffb066]">
                     TYPE: {p.type} · V{p.version}
                   </span>
                 </div>
 
                 <div>
-                  <h3 className="pj-arcade text-[10px] leading-[1.6] text-[#fff1e0]">{p.title}</h3>
-                  <p className={`pj-mono mt-1 text-[12px] leading-snug text-[#c9906a] ${compact ? "line-clamp-1" : "line-clamp-2"}`}>{p.tagline}</p>
+                  <h3 className="font-arcade text-[10px] leading-[1.6] text-[#fff1e0]">{p.title}</h3>
+                  <p className={`font-tech mt-1 text-[12px] leading-snug text-[#c9906a] ${compact ? "line-clamp-1" : "line-clamp-2"}`}>{p.tagline}</p>
                 </div>
 
                 <div className="border border-[#3a1808] bg-[#100806] px-2 py-1.5">
-                  <p className="pj-arcade text-[7px]" style={{ color: p.accent }}>
+                  <p className="font-arcade text-[7px]" style={{ color: p.accent }}>
                     ◆ {p.ability.name}
                   </p>
-                  {!compact && <p className="pj-mono mt-1 line-clamp-2 text-[11px] leading-snug text-[#e6b793]">{p.ability.text}</p>}
+                  {!compact && <p className="font-tech mt-1 line-clamp-2 text-[11px] leading-snug text-[#e6b793]">{p.ability.text}</p>}
                 </div>
 
                 <div className="mt-auto grid grid-cols-2 gap-2">
                   {[["ATK", p.atk], ["DEF", p.def]].map(([k, s]) => (
                     <div key={k} className="border border-[#3a1808] bg-[#100806] p-1.5 text-center">
-                      <span className="pj-mono block truncate text-[9px] text-[#8a5a40]">
+                      <span className="font-tech block truncate text-[9px] text-[#8a5a40]">
                         {k} / {s.label}
                       </span>
-                      <span className="pj-arcade mt-1 block text-[9px]" style={{ color: p.accent }}>
+                      <span className="font-arcade mt-1 block text-[9px]" style={{ color: p.accent }}>
                         {s.value}
                       </span>
                     </div>
                   ))}
                 </div>
+
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-2">
                     <Pips count={r.pips} color={r.color} />
-                    <span className="pj-arcade text-[6px]" style={{ color: r.color }}>
+                    <span className="font-arcade text-[6px]" style={{ color: r.color }}>
                       {r.label}
                     </span>
                   </span>
-                  <span className="pj-mono text-[9px] text-[#6b3a22]">PRATUL_STUDIOS · 2026.1</span>
+                  <span className="font-tech text-[9px] text-[#6b3a22]">PRATUL_STUDIOS · 2026.1</span>
                 </div>
               </div>
 
               <div
-                className="pj-foil pointer-events-none absolute inset-0"
+                className="bg-[length:260%_260%] [background-position:var(--mx,50%)_var(--my,50%)] mix-blend-screen transition-opacity duration-200 pointer-events-none absolute inset-0"
                 style={{
                   opacity: r.foil * (tiltable ? 1 : 0.35),
-                  background: `linear-gradient(115deg, transparent 20%, ${p.accent}55 40%, rgba(255,225,190,.5) 48%, ${p.accent}44 55%, transparent 75%)`,
+                  backgroundImage: `linear-gradient(115deg, transparent 20%, ${p.accent}55 40%, rgba(255,225,190,.5) 48%, ${p.accent}44 55%, transparent 75%)`,
                 }}
               />
               {sparks.map((s, i) => (
-                <span key={i} className="pj-spark" style={{ left: `${s.x}%`, top: `${s.y}%`, animationDelay: `${s.d}s` }} />
+                <span key={i} className="absolute h-[3px] w-[3px] bg-[#ffe2b8] shadow-[0_0_6px_#ffb000] animate-pj-spark motion-reduce:animate-none" style={{ left: `${s.x}%`, top: `${s.y}%`, animationDelay: `${s.d}s` }} />
               ))}
             </div>
           </div>
 
           <div className="absolute inset-0" style={{ ...face, transform: "rotateY(180deg)" }}>
-            <div className="pj-notch absolute inset-0" style={{ background: "#3a1808", filter: "brightness(.75)" }}>
+            <div className={`${NOTCH} absolute inset-0`} style={{ background: "#3a1808", filter: "brightness(.75)" }}>
               <div
-                className="pj-notch absolute flex flex-col items-center justify-center gap-3"
+                className={`${NOTCH} absolute flex flex-col items-center justify-center gap-3`}
                 style={{ inset: 3, background: `repeating-linear-gradient(45deg, ${p.accent}22 0 2px, #0b0605 2px 9px)` }}
               >
-                <span className="pj-arcade text-[10px] text-[#ffb066]">PRATUL.DEV</span>
+                <span className="font-arcade text-[10px] text-[#ffb066]">PRATUL.DEV</span>
                 <div className="flex h-10 w-10 items-center justify-center border-2 bg-[#0b0605]" style={{ borderColor: p.accent, color: p.accent }}>
                   <Icon className="h-5 w-5" />
                 </div>
-                <span className="pj-arcade text-[8px]" style={{ color: p.accent }}>
+                <span className="font-arcade text-[8px]" style={{ color: p.accent }}>
                   {p.id}
                 </span>
                 <div className="flex h-6 items-end gap-[2px]">
@@ -636,6 +586,8 @@ const TCGCard = memo(function TCGCard({
     </div>
   );
 });
+
+
 function ProjectModal({ index, onClose, onStep }) {
   const p = PROJECTS[index];
   const r = RARITY[p.rarity];
@@ -688,23 +640,23 @@ function ProjectModal({ index, onClose, onStep }) {
 
   return createPortal(
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6" role="dialog" aria-modal="true" aria-label={p.title}>
-      <div className="pj-fade absolute inset-0 bg-black/85 backdrop-blur-sm" onClick={onClose} />
+      <div className="animate-pj-fade motion-reduce:animate-none absolute inset-0 bg-black/85 backdrop-blur-sm" onClick={onClose} />
       <div
         ref={panelRef}
         key={p.id}
-        className="pj-crt-on relative max-h-[92vh] w-full max-w-5xl overflow-y-auto bg-[#0b0605]"
+        className="animate-pj-crt-on motion-reduce:animate-none relative max-h-[92vh] w-full max-w-5xl overflow-y-auto bg-[#0b0605]"
         style={{ boxShadow: `0 0 0 2px ${p.accent}, 0 0 0 6px #0b0605, 0 0 0 8px ${p.accent}66, 0 0 70px ${p.accent}44` }}
       >
-        <div className="pj-scan pointer-events-none absolute inset-0 z-10" />
+        <div className="bg-[repeating-linear-gradient(0deg,rgba(0,0,0,.28)_0_1px,transparent_1px_3px)] pointer-events-none absolute inset-0 z-10" />
 
         <div className="flex items-center justify-between border-b px-4 py-2.5" style={{ borderColor: `${p.accent}66`, background: `${p.accent}18` }}>
-          <span className="pj-arcade text-[9px]" style={{ color: p.accent }}>
+          <span className="font-arcade text-[9px]" style={{ color: p.accent }}>
             CARD_INSPECTOR // {p.id.replace(" ", "_")}.EXE
           </span>
           <button
             ref={closeRef}
             onClick={onClose}
-            className="pj-arcade flex items-center gap-2 border border-[#ff3d2e] bg-[#2a0d0a] px-2.5 py-1.5 text-[8px] text-[#ffd9c9] hover:bg-[#ff3d2e] hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffb000]"
+            className="font-arcade flex items-center gap-2 border border-[#ff3d2e] bg-[#2a0d0a] px-2.5 py-1.5 text-[8px] text-[#ffd9c9] hover:bg-[#ff3d2e] hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffb000]"
           >
             CLOSE [ESC] <X className="h-3.5 w-3.5" />
           </button>
@@ -713,12 +665,12 @@ function ProjectModal({ index, onClose, onStep }) {
         <div className="grid gap-7 p-5 md:grid-cols-[260px_1fr] md:p-7">
 
           <div className="flex flex-col items-center gap-5">
-            <div key={`card-${p.id}`} className="pj-flipin" style={{ perspective: 1200, transformStyle: "preserve-3d" }}>
+            <div key={`card-${p.id}`} className="animate-pj-flip motion-reduce:animate-none" style={{ perspective: 1200, transformStyle: "preserve-3d" }}>
               <TCGCard p={p} idx={index} t="none" o={1} w={250} h={375} placed={false} tiltable isTop onActivate={noop} onHover={noop} />
             </div>
             <dl className="w-full border border-[#3a1808] bg-[#080403] p-3">
               {meta.map(([k, v]) => (
-                <div key={k} className="pj-mono flex justify-between gap-3 border-b border-[#1d0d07] py-1.5 text-[13px] last:border-0">
+                <div key={k} className="font-tech flex justify-between gap-3 border-b border-[#1d0d07] py-1.5 text-[13px] last:border-0">
                   <dt className="text-[#8a5a40]">{k}</dt>
                   <dd className="text-right text-[#ffcfa3]">{v}</dd>
                 </div>
@@ -728,48 +680,48 @@ function ProjectModal({ index, onClose, onStep }) {
 
           <div className="space-y-6">
             <div>
-              <h2 className="pj-arcade text-base leading-snug text-[#fff1e0] sm:text-xl">{p.title}</h2>
-              <p className="pj-mono mt-2 text-sm" style={{ color: p.accent }}>
+              <h2 className="font-arcade text-base leading-snug text-[#fff1e0] sm:text-xl">{p.title}</h2>
+              <p className="font-tech mt-2 text-sm" style={{ color: p.accent }}>
                 {p.tagline}
               </p>
-              <p className="pj-mono mt-2 text-[13px] italic text-[#8a5a40]">“{p.flavor}”</p>
+              <p className="font-tech mt-2 text-[13px] italic text-[#8a5a40]">“{p.flavor}”</p>
             </div>
 
             <div>
-              <h4 className="pj-arcade mb-2.5 text-[9px] text-[#ff6a00]">THE PROBLEM</h4>
-              <p className="pj-mono text-[14px] leading-relaxed text-[#e6b793]">{p.problem}</p>
+              <h4 className="font-arcade mb-2.5 text-[9px] text-[#ff6a00]">THE PROBLEM</h4>
+              <p className="font-tech text-[14px] leading-relaxed text-[#e6b793]">{p.problem}</p>
             </div>
 
             <div>
-              <h4 className="pj-arcade mb-2.5 text-[9px] text-[#ff6a00]">WHAT IT DOES</h4>
-              <p className="pj-mono min-h-[5.5rem] text-[15px] leading-relaxed text-[#ffe2c4]">
+              <h4 className="font-arcade mb-2.5 text-[9px] text-[#ff6a00]">WHAT IT DOES</h4>
+              <p className="font-tech min-h-[5.5rem] text-[15px] leading-relaxed text-[#ffe2c4]">
                 {typed}
-                <span className="pj-cursor ml-0.5 inline-block h-[1em] w-[0.5em] translate-y-[2px] bg-[#ffb000]" />
+                <span className="animate-pj-cursor motion-reduce:animate-none ml-0.5 inline-block h-[1em] w-[0.5em] translate-y-[2px] bg-[#ffb000]" />
               </p>
             </div>
 
             <div>
-              <h4 className="pj-arcade mb-3 text-[9px] text-[#ff6a00]">HOW IT FLOWS</h4>
+              <h4 className="font-arcade mb-3 text-[9px] text-[#ff6a00]">HOW IT FLOWS</h4>
               <div className="flex flex-wrap items-center gap-y-2">
                 {p.pipeline.map((n, i) => (
                   <Fragment key={n}>
                     <span
-                      className="pj-node pj-mono border border-[#5a2410] bg-[#150a07] px-2.5 py-1 text-[12px] text-[#ffb066]"
+                      className="animate-pj-node motion-reduce:animate-none font-tech border border-[#5a2410] bg-[#150a07] px-2.5 py-1 text-[12px] text-[#ffb066]"
                       style={{ "--c": p.accent, animationDelay: `${i * 0.8}s` }}
                     >
                       {n}
                     </span>
-                    {i < p.pipeline.length - 1 && <span className="pj-mono px-1.5 text-[#7a3a1a]">▸</span>}
+                    {i < p.pipeline.length - 1 && <span className="font-tech px-1.5 text-[#7a3a1a]">▸</span>}
                   </Fragment>
                 ))}
               </div>
             </div>
 
             <div>
-              <h4 className="pj-arcade mb-2.5 text-[9px] text-[#ff6a00]">KEY FEATURES</h4>
+              <h4 className="font-arcade mb-2.5 text-[9px] text-[#ff6a00]">KEY FEATURES</h4>
               <ul className="space-y-2">
                 {p.highlights.map((h, i) => (
-                  <li key={h} className="pj-rise pj-mono flex gap-2.5 text-[14px] text-[#e6b793]" style={{ animationDelay: `${350 + i * 150}ms` }}>
+                  <li key={h} className="animate-pj-rise motion-reduce:animate-none font-tech flex gap-2.5 text-[14px] text-[#e6b793]" style={{ animationDelay: `${350 + i * 150}ms` }}>
                     <span className="mt-[7px] h-2 w-2 shrink-0" style={{ background: p.accent }} />
                     {h}
                   </li>
@@ -778,10 +730,10 @@ function ProjectModal({ index, onClose, onStep }) {
             </div>
 
             <div>
-              <h4 className="pj-arcade mb-2.5 text-[9px] text-[#ff6a00]">TECH STACK</h4>
+              <h4 className="font-arcade mb-2.5 text-[9px] text-[#ff6a00]">TECH STACK</h4>
               <div className="flex flex-wrap gap-2">
                 {p.tech.map((t, i) => (
-                  <span key={t} className="pj-rise pj-mono border border-[#7a3a1a] bg-[#150a07] px-2.5 py-1 text-[13px] text-[#ffb066]" style={{ animationDelay: `${600 + i * 70}ms` }}>
+                  <span key={t} className="animate-pj-rise motion-reduce:animate-none font-tech border border-[#7a3a1a] bg-[#150a07] px-2.5 py-1 text-[13px] text-[#ffb066]" style={{ animationDelay: `${600 + i * 70}ms` }}>
                     {t}
                   </span>
                 ))}
@@ -789,11 +741,11 @@ function ProjectModal({ index, onClose, onStep }) {
             </div>
 
             <div className="border border-[#3a1808] bg-[#080403] p-4">
-              <h4 className="pj-arcade border-b border-[#3a1808] pb-2 text-[9px] text-[#ff6a00]">RESULTS</h4>
+              <h4 className="font-arcade border-b border-[#3a1808] pb-2 text-[9px] text-[#ff6a00]">RESULTS</h4>
               <div className="mt-4 space-y-4">
                 {p.metrics.map((m) => (
                   <div key={m.label}>
-                    <div className="pj-mono mb-1.5 flex justify-between text-[13px]">
+                    <div className="font-tech mb-1.5 flex justify-between text-[13px]">
                       <span className="text-[#c9906a]">{m.label}</span>
                       <span style={{ color: p.accent }}>{m.display}</span>
                     </div>
@@ -817,7 +769,7 @@ function ProjectModal({ index, onClose, onStep }) {
                 href={p.demoUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="pj-arcade flex flex-1 items-center justify-center gap-2 bg-[#ff6a00] px-3 py-3 text-[9px] text-black transition-colors hover:bg-[#ffb000] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffb000]"
+                className="font-arcade flex flex-1 items-center justify-center gap-2 bg-[#ff6a00] px-3 py-3 text-[9px] text-black transition-colors hover:bg-[#ffb000] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffb000]"
               >
                 <ExternalLink className="h-4 w-4" /> LIVE DEMO
               </a>
@@ -825,14 +777,14 @@ function ProjectModal({ index, onClose, onStep }) {
                 href={p.repoUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="pj-arcade flex flex-1 items-center justify-center gap-2 border border-[#ff6a00] px-3 py-3 text-[9px] text-[#ffb066] transition-colors hover:bg-[#ff6a00]/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffb000]"
+                className="font-arcade flex flex-1 items-center justify-center gap-2 border border-[#ff6a00] px-3 py-3 text-[9px] text-[#ffb066] transition-colors hover:bg-[#ff6a00]/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffb000]"
               >
                 <Code2 className="h-4 w-4" /> SOURCE CODE
               </a>
-              <button onClick={() => onStep(-1)} className="pj-arcade flex items-center justify-center gap-1 border border-[#5a2410] px-4 py-3 text-[8px] text-[#c9906a] hover:border-[#ff6a00] hover:text-[#ffb066]">
+              <button onClick={() => onStep(-1)} className="font-arcade flex items-center justify-center gap-1 border border-[#5a2410] px-4 py-3 text-[8px] text-[#c9906a] hover:border-[#ff6a00] hover:text-[#ffb066]">
                 <ChevronLeft className="h-3.5 w-3.5" /> PREV
               </button>
-              <button onClick={() => onStep(1)} className="pj-arcade flex items-center justify-center gap-1 border border-[#5a2410] px-4 py-3 text-[8px] text-[#c9906a] hover:border-[#ff6a00] hover:text-[#ffb066]">
+              <button onClick={() => onStep(1)} className="font-arcade flex items-center justify-center gap-1 border border-[#5a2410] px-4 py-3 text-[8px] text-[#c9906a] hover:border-[#ff6a00] hover:text-[#ffb066]">
                 NEXT <ChevronRight className="h-3.5 w-3.5" />
               </button>
             </div>
@@ -844,12 +796,11 @@ function ProjectModal({ index, onClose, onStep }) {
   );
 }
 
+
 export default function ProjectsDeck() {
   const stageRef = useRef(null);
   const tableRef = useRef(null);
   const audio = useRef(null);
-  const t0 = useRef(0);
-  const logId = useRef(0);
   const busy = useRef(false);
   const dealT = useRef(null);
   const dealtOnce = useRef(false);
@@ -865,7 +816,6 @@ export default function ProjectsDeck() {
   const [ringAnim, setRingAnim] = useState(true);
   const [openIdx, setOpenIdx] = useState(null);
   const [sound, setSound] = useState(false);
-  const [logs, setLogs] = useState([]);
   const [dims, setDims] = useState({ w: 1000, cardW: 270, cardH: 405, small: false });
 
   const live = useRef({});
@@ -889,15 +839,7 @@ export default function ProjectsDeck() {
       g.connect(ctx.destination);
       o.start(t);
       o.stop(t + dur);
-    } catch (e) { }
-  }, []);
-
-  const log = useCallback((msg) => {
-    const s = Math.floor((performance.now() - t0.current) / 1000);
-    const ts = `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
-    logId.current += 1;
-    const id = logId.current;
-    setLogs((l) => [...l.slice(-3), { id, ts, msg }]);
+    } catch (e) {  }
   }, []);
 
   const stepRing = useCallback((dir) => {
@@ -918,8 +860,7 @@ export default function ProjectsDeck() {
   const openCard = useCallback((id) => {
     beep("square", 440, 880, 0.12, 0.06);
     setOpenIdx(id);
-    log(`Inspecting ${PROJECTS[id].id} // ${PROJECTS[id].title}`);
-  }, [beep, log]);
+  }, [beep]);
 
   const changeMode = useCallback((m) => {
     const L = live.current;
@@ -936,8 +877,7 @@ export default function ProjectsDeck() {
     setHoverId(null);
     setMode(m);
     beep("triangle", 520, 700, 0.1, 0.05);
-    log(`Layout switched to ${m.toUpperCase()}.`);
-  }, [beep, log]);
+  }, [beep]);
 
   const cycle = useCallback((dir) => {
     const L = live.current;
@@ -957,8 +897,7 @@ export default function ProjectsDeck() {
       setTimeout(done, 320);
     } else done();
     beep("sawtooth", 200, 380, 0.07, 0.04);
-    log(dir > 0 ? `Card ${PROJECTS[L.order[0]].id} sent to the back.` : "Drew the last card to the top.");
-  }, [beep, log, stepRing]);
+  }, [beep, stepRing]);
 
   const focusCard = useCallback((id) => {
     const L = live.current;
@@ -974,14 +913,13 @@ export default function ProjectsDeck() {
       else {
         setOrder((o) => [id, ...o.filter((x) => x !== id)]);
         beep("sine", 750, 800, 0.1, 0.05);
-        log(`Drew ${PROJECTS[id].id} to the top of the deck.`);
       }
     } else if (L.mode === "ring") {
       const pos = L.order.indexOf(id);
       if (pos === frontPos(L.ringAngle)) openCard(id);
       else goRing(pos);
     } else openCard(id);
-  }, [beep, changeMode, goRing, log, openCard]);
+  }, [beep, changeMode, goRing, openCard]);
 
   const closeModal = useCallback(() => {
     beep("triangle", 600, 300, 0.1, 0.06);
@@ -997,8 +935,6 @@ export default function ProjectsDeck() {
   }, [focusCard]);
 
   useEffect(() => {
-    t0.current = performance.now();
-    log("Deck loaded. 6 cards in hand.");
     const el = stageRef.current;
     const calc = () => {
       const w = el.clientWidth;
@@ -1009,7 +945,7 @@ export default function ProjectsDeck() {
     const ro = new ResizeObserver(calc);
     ro.observe(el);
     return () => ro.disconnect();
-  }, [log]);
+  }, []);
 
   useEffect(() => {
     const el = stageRef.current;
@@ -1018,7 +954,6 @@ export default function ProjectsDeck() {
         if (e.isIntersecting && !dealtOnce.current) {
           dealtOnce.current = true;
           setDealt(true);
-          log("Shuffling... dealing cards.");
           beep("square", 330, 660, 0.15, 0.05);
           clearTimeout(dealT.current);
           dealT.current = setTimeout(() => setDealing(false), 1300);
@@ -1031,7 +966,8 @@ export default function ProjectsDeck() {
       io.disconnect();
       clearTimeout(dealT.current);
     };
-  }, [beep, log]);
+  }, [beep]);
+
 
   useEffect(() => {
     if (tableRef.current) tableRef.current.style.transform = `rotateX(${mode === "grid" ? 2 : 7}deg)`;
@@ -1143,71 +1079,26 @@ export default function ProjectsDeck() {
 
   const focus = PROJECTS[focusId];
   const fr = RARITY[focus.rarity];
-  const counts = PROJECTS.reduce((a, p) => ({ ...a, [p.rarity]: (a[p.rarity] || 0) + 1 }), {});
-  const avg = Math.round(PROJECTS.reduce((s, p) => s + p.power, 0) / N);
 
   return (
     <section id="projects" className="relative isolate overflow-hidden py-16 text-[#ffb066] sm:py-24">
-      <style>{CSS}</style>
 
       <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true" style={{ WebkitMaskImage: EDGE_FADE, maskImage: EDGE_FADE }}>
         <div className="absolute inset-0" style={{ background: "radial-gradient(60% 50% at 50% 55%, rgba(255,90,20,.14), transparent 70%)" }} />
-        <div className="pj-beam absolute left-[12%] top-0 h-[70%] w-24 opacity-50" style={{ transform: "skewX(-24deg)" }} />
-        <div className="pj-beam absolute right-[14%] top-0 h-[70%] w-24 opacity-50" style={{ transform: "skewX(24deg)" }} />
+        <div className="bg-[linear-gradient(180deg,rgba(255,120,40,.2),transparent_85%)] blur-[2px] origin-top absolute left-[12%] top-0 h-[70%] w-24 opacity-50" style={{ transform: "skewX(-24deg)" }} />
+        <div className="bg-[linear-gradient(180deg,rgba(255,120,40,.2),transparent_85%)] blur-[2px] origin-top absolute right-[14%] top-0 h-[70%] w-24 opacity-50" style={{ transform: "skewX(24deg)" }} />
         <Embers />
       </div>
 
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <header className="mb-8 text-center">
-          <p className="pj-mono text-sm text-[#ff6a00]">[ COLLECTIBLE DECK // {String(N).padStart(2, "0")} CARDS ]</p>
-          <h2 className="pj-arcade mt-4 text-3xl text-[#fff3e6] sm:text-5xl" style={{ textShadow: "4px 4px 0 #7a2a00" }}>
-            DEVELOPMENT LOG
+          <h2 className="font-arcade mt-4 text-3xl text-[#fff3e6] sm:text-5xl" style={{ textShadow: "4px 4px 0 #7a2a00" }}>
+            DEVELOPMENT DECK
           </h2>
-          <p className="pj-mono mx-auto mt-5 max-w-xl text-base text-[#c9906a]">
+          <p className="font-tech mx-auto mt-5 max-w-xl text-base text-[#c9906a]">
             Six production systems, printed as collectible cards. Stack them, fan them, deal them out or spin the ring, then open any card for the full spec.
           </p>
         </header>
-
-        <div className="flex flex-wrap items-center justify-between gap-3 border border-[#5a2410] bg-[#0d0605]/90 px-3 py-2.5 backdrop-blur">
-          <div className="flex min-w-0 items-center gap-3">
-            <span className="pj-led inline-block h-2.5 w-2.5 shrink-0" style={{ background: focus.accent }} />
-            <div className="min-w-0">
-              <p className="pj-mono text-[11px] text-[#8a5a40]">
-                ON TABLE · <span style={{ color: fr.color }}>{fr.label}</span>
-              </p>
-              <p key={focus.id} className="pj-arcade pj-fade truncate text-[10px] sm:text-xs" style={{ color: focus.accent }}>
-                {focus.title}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Deck layout">
-            {MODES.map(({ k, label, Icon }, i) => (
-              <button
-                key={k}
-                type="button"
-                aria-pressed={mode === k}
-                title={`${label} layout [${i + 1}]`}
-                onClick={() => changeMode(k)}
-                className={`pj-arcade flex items-center gap-1.5 border px-2.5 py-2 text-[8px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffb000] ${
-                  mode === k ? "border-[#ff6a00] bg-[#ff6a00] text-black" : "border-[#5a2410] bg-[#150a07] text-[#ffb066] hover:border-[#ff6a00]"
-                }`}
-              >
-                <Icon className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">{label}</span>
-              </button>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-2">
-            <HudBtn label="Previous card" onClick={() => cycle(-1)}><ChevronLeft className="h-4 w-4" /></HudBtn>
-            <HudBtn label="Next card" onClick={() => cycle(1)}><ChevronRight className="h-4 w-4" /></HudBtn>
-            <HudBtn label="Shuffle the deck" onClick={() => { cycle(1); }}><Shuffle className="h-4 w-4" /></HudBtn>
-            <HudBtn label={sound ? "Mute sound" : "Enable sound"} onClick={() => setSound((v) => !v)}>
-              {sound ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
-            </HudBtn>
-          </div>
-        </div>
 
         <div
           ref={stageRef}
@@ -1230,12 +1121,12 @@ export default function ProjectsDeck() {
                 opacity: mode === "grid" ? 0 : 1, transition: "opacity .6s",
               }}
             >
-              <div className="pj-grid absolute inset-0" />
+              <div className="animate-pj-grid motion-reduce:animate-none bg-[length:46px_46px] bg-[image:linear-gradient(rgba(255,106,0,.45)_1px,transparent_1px),linear-gradient(90deg,rgba(255,106,0,.45)_1px,transparent_1px)] [mask-image:radial-gradient(closest-side,#000_20%,transparent_100%)] absolute inset-0" />
               <div
                 className="absolute left-1/2 top-1/2"
                 style={{ width: 0, height: 0, transform: `rotate(${-ringAngle}deg)`, transition: ringAnim ? "transform .9s cubic-bezier(.2,.8,.2,1)" : "none", opacity: mode === "ring" ? 1 : 0.35 }}
               >
-                <div className="pj-ticks absolute" style={{ width: radius * 2 + 40, height: radius * 2 + 40, left: -radius - 20, top: -radius - 20 }} />
+                <div className="bg-[image:repeating-conic-gradient(from_0deg,rgba(255,170,80,.95)_0_.7deg,transparent_.7deg_5deg)] [mask-image:radial-gradient(closest-side,transparent_0_91%,#000_92%_99%,transparent_100%)] absolute" style={{ width: radius * 2 + 40, height: radius * 2 + 40, left: -radius - 20, top: -radius - 20 }} />
                 <div className="absolute rounded-full border border-dashed border-[#ff6a00]/60" style={{ width: radius * 2, height: radius * 2, left: -radius, top: -radius }} />
                 {PROJECTS.map((p, i) => {
                   const pos = order.indexOf(i);
@@ -1294,32 +1185,47 @@ export default function ProjectsDeck() {
           </div>
         </div>
 
-        <p className="pj-mono mt-4 text-center text-sm text-[#8a5a40]">{HINTS[mode]}</p>
-
-        <div className="mt-8 border border-[#3a1808] bg-[#0d0605]/90 p-4">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#3a1808] pb-3">
-            <span className="pj-arcade text-[9px] text-[#ffb066]">DECK_CONTROLLER // OPERATIONAL</span>
-            <div className="pj-mono flex flex-wrap gap-x-5 gap-y-1 text-[13px] text-[#c9906a]">
-              <span>CARDS <b className="font-normal text-[#ffcfa3]">{N}</b></span>
-              <span style={{ color: RARITY.LEGENDARY.color }}>LEGENDARY {counts.LEGENDARY || 0}</span>
-              <span style={{ color: RARITY.EPIC.color }}>EPIC {counts.EPIC || 0}</span>
-              <span style={{ color: RARITY.RARE.color }}>RARE {counts.RARE || 0}</span>
-              <span>AVG PWR <b className="font-normal text-[#ffcfa3]">{avg}</b></span>
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border border-[#5a2410] bg-[#0d0605]/90 px-3 py-2.5 backdrop-blur">
+          <div className="flex min-w-0 items-center gap-3">
+            <span className="animate-pj-blink motion-reduce:animate-none inline-block h-2.5 w-2.5 shrink-0" style={{ background: focus.accent }} />
+            <div className="min-w-0">
+              <p className="font-tech text-[11px] text-[#8a5a40]">
+                ON TABLE · <span style={{ color: fr.color }}>{fr.label}</span>
+              </p>
+              <p key={focus.id} className="font-arcade animate-pj-fade motion-reduce:animate-none truncate text-[10px] sm:text-xs" style={{ color: focus.accent }}>
+                {focus.title}
+              </p>
             </div>
           </div>
-          <div className="pj-mono mt-3 min-h-[5.5rem] space-y-1 text-[13px] text-[#c9906a]" aria-live="polite">
-            {logs.map((l) => (
-              <p key={l.id} className="pj-log">
-                <span className="text-[#6b3a22]">[{l.ts}]</span> &gt; {l.msg}
-              </p>
+
+          <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Deck layout">
+            {MODES.map(({ k, label, Icon }, i) => (
+              <button
+                key={k}
+                type="button"
+                aria-pressed={mode === k}
+                title={`${label} layout [${i + 1}]`}
+                onClick={() => changeMode(k)}
+                className={`font-arcade flex items-center gap-1.5 border px-2.5 py-2 text-[8px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffb000] ${
+                  mode === k ? "border-[#ff6a00] bg-[#ff6a00] text-black" : "border-[#5a2410] bg-[#150a07] text-[#ffb066] hover:border-[#ff6a00]"
+                }`}
+              >
+                <Icon className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">{label}</span>
+              </button>
             ))}
           </div>
-          <p className="pj-mono mt-3 hidden border-t border-[#3a1808] pt-3 text-[12px] text-[#6b3a22] md:block">
-            Focus the table, then: <kbd className="border border-[#5a2410] px-1.5 text-[#c9906a]">1</kbd>–<kbd className="border border-[#5a2410] px-1.5 text-[#c9906a]">4</kbd> layout ·{" "}
-            <kbd className="border border-[#5a2410] px-1.5 text-[#c9906a]">SPACE</kbd> next layout · <kbd className="border border-[#5a2410] px-1.5 text-[#c9906a]">←</kbd>{" "}
-            <kbd className="border border-[#5a2410] px-1.5 text-[#c9906a]">→</kbd> flip cards · <kbd className="border border-[#5a2410] px-1.5 text-[#c9906a]">ENTER</kbd> inspect
-          </p>
+
+          <div className="flex items-center gap-2">
+            <HudBtn label="Previous card" onClick={() => cycle(-1)}><ChevronLeft className="h-4 w-4" /></HudBtn>
+            <HudBtn label="Next card" onClick={() => cycle(1)}><ChevronRight className="h-4 w-4" /></HudBtn>
+            <HudBtn label="Shuffle the deck" onClick={() => { cycle(1); }}><Shuffle className="h-4 w-4" /></HudBtn>
+            <HudBtn label={sound ? "Mute sound" : "Enable sound"} onClick={() => setSound((v) => !v)}>
+              {sound ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
+            </HudBtn>
+          </div>
         </div>
+        <p className="font-tech mt-4 text-center text-sm text-[#8a5a40]">{HINTS[mode]}</p>
       </div>
 
       {openIdx !== null && <ProjectModal index={openIdx} onClose={closeModal} onStep={stepModal} />}
