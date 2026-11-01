@@ -145,7 +145,7 @@ export default function About() {
       <div className="mx-auto max-w-6xl overflow-hidden rounded-xl border border-orange-500/30 bg-black/30 backdrop-blur-md">
         <div className="flex items-center gap-3 border-b border-orange-500/30 px-6 py-4 text-xs uppercase tracking-[0.2em] text-orange-400">
           <span className="h-2 w-2 rounded-full bg-orange-500" />
-          SYS.PROFILE // [DEV_PRATUL]
+          SYS.PROFILE
         </div>
 
         <div className="space-y-5 p-6">
