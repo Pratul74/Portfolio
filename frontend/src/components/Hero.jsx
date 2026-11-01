@@ -1,4 +1,3 @@
-import TechStack from "./TechStack";
 import Button from "./Button";
 
 const HIGHLIGHTS = [
