@@ -3,8 +3,10 @@ import Hero from "./components/Hero";
 import Footer from "./components/Footer";
 import Background from "./components/Background";
 import CRT from "./components/CRT";
-import SkillCards from "./components/SkillCards";
+import Skills3D from "./components/SkillCards";
 import About from "./components/About";
+import Projects3D from "./components/Projects";
+import SignalContact from "./components/ContactForm";
 
 export default function App() {
   return (
@@ -24,11 +26,15 @@ export default function App() {
         </section>
 
         <section id="skills" className="min-h-screen scroll-mt-[90px]">
-          <SkillCards />
+          <Skills3D />
+        </section>
+
+        <section id="skills" className="min-h-screen scroll-mt-[90px]">
+          <Projects3D />
         </section>
 
         <section id="contact" className="min-h-screen scroll-mt-[90px]">
-          
+          <SignalContact endpoint="https://formspree.io/f/YOUR_ID"/>
         </section>
         <Footer />
       </div>
