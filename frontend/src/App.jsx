@@ -1,12 +1,12 @@
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import Footer from "./components/Footer";
-import Background from "./components/Background";
-import CRT from "./components/CRT";
-import Skills3D from "./components/Skill3D";
-import About from "./components/About";
-import ProjectsDeck from "./components/ProjectsDeck";
-import SignalContact from "./components/SignalContact";
+import Navbar from "./components/layout/Navbar";
+import Hero from "./components/sections/Hero";
+import Footer from "./components/layout/Footer";
+import Background from "./components/effects/Background";
+import CRT from "./components/effects/CRT";
+import Skills3D from "./components/sections/Skill3D";
+import About from "./components/sections/About";
+import ProjectsDeck from "./components/sections/ProjectsDeck";
+import SignalContact from "./components/sections/SignalContact";
 
 export default function App() {
   return (
