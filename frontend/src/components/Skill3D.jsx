@@ -107,30 +107,6 @@ const groupAvg = (g) => {
   return Math.round(list.reduce((n, s) => n + s.level, 0) / list.length);
 };
 
-const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap');
-.sk-arcade{font-family:'Press Start 2P',ui-monospace,monospace}
-.sk-mono{font-family:'Share Tech Mono',ui-monospace,monospace}
-.sk-notch{clip-path:polygon(0 8px,4px 8px,4px 4px,8px 4px,8px 0,calc(100% - 8px) 0,calc(100% - 8px) 4px,calc(100% - 4px) 4px,calc(100% - 4px) 8px,100% 8px,100% calc(100% - 8px),calc(100% - 4px) calc(100% - 8px),calc(100% - 4px) calc(100% - 4px),calc(100% - 8px) calc(100% - 4px),calc(100% - 8px) 100%,8px 100%,8px calc(100% - 4px),4px calc(100% - 4px),4px calc(100% - 8px),0 calc(100% - 8px))}
-.sk-notch-s{clip-path:polygon(0 4px,2px 4px,2px 2px,4px 2px,4px 0,calc(100% - 4px) 0,calc(100% - 4px) 2px,calc(100% - 2px) 2px,calc(100% - 2px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 2px) calc(100% - 4px),calc(100% - 2px) calc(100% - 2px),calc(100% - 4px) calc(100% - 2px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 2px),2px calc(100% - 2px),2px calc(100% - 4px),0 calc(100% - 4px))}
-.sk-scan{background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 3px)}
-.sk-dots{background-image:radial-gradient(rgba(255,106,0,.5) 1px,transparent 1px);background-size:24px 24px}
-.sk-radar{background:conic-gradient(from 0deg,rgba(255,106,0,.28),rgba(255,106,0,0) 28%,rgba(255,106,0,0) 100%);-webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent 100%);mask-image:radial-gradient(closest-side,#000 30%,transparent 100%);animation:skSpin 7s linear infinite}
-.sk-core{animation:skPulse 3.2s ease-in-out infinite}
-.sk-ping{animation:skPing 1.6s ease-out infinite}
-.sk-led{animation:skBlink 1.4s steps(2,end) infinite}
-.sk-cursor{animation:skBlink 1s steps(2,end) infinite}
-.sk-rise{animation:skRise .4s ease-out both}
-.sk-boot{animation:skBoot .35s steps(4,end) both}
-.sk-orbit{animation:skSpin 4s linear infinite}
-@keyframes skSpin{to{transform:rotate(360deg)}}
-@keyframes skPulse{50%{opacity:.55;transform:scale(1.08)}}
-@keyframes skPing{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.5)}}
-@keyframes skBlink{50%{opacity:.15}}
-@keyframes skRise{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
-@keyframes skBoot{from{opacity:0;transform:scaleY(.1)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){.sk-radar,.sk-core,.sk-ping,.sk-led,.sk-cursor,.sk-rise,.sk-boot,.sk-orbit{animation:none!important}}
-`;
 
 
 function Logo({ skill, className = "h-8 w-8", textClass = "text-xs" }) {
@@ -138,7 +114,7 @@ function Logo({ skill, className = "h-8 w-8", textClass = "text-xs" }) {
   const color = GROUP_COLOR[skill.group];
   if (!skill.icon || failed) {
     return (
-      <span className={`sk-arcade ${textClass}`} style={{ color }}>
+      <span className={`font-arcade ${textClass}`} style={{ color }}>
         {skill.short}
       </span>
     );
@@ -203,9 +179,9 @@ function Decompile({ skill, onPick, onReset }) {
         <div className="relative flex items-center justify-between border-b pb-3" style={{ borderColor: `${color}55` }}>
           <div className="flex items-center gap-2">
             <span className="sk-ping inline-block h-2.5 w-2.5" style={{ background: color }} />
-            <h3 className="sk-arcade text-[9px]" style={{ color }}>[ MODULE DECOMPILE ]</h3>
+            <h3 className="font-arcade text-[9px]" style={{ color }}>[ MODULE DECOMPILE ]</h3>
           </div>
-          <span className="sk-mono text-sm text-[#ffcfa3]">{skill.code}</span>
+          <span className="font-tech text-sm text-[#ffcfa3]">{skill.code}</span>
         </div>
 
         <div key={skill.id} className="relative mt-4 flex items-center gap-4">
@@ -220,17 +196,17 @@ function Decompile({ skill, onPick, onReset }) {
             </div>
           </div>
           <div className="min-w-0">
-            <h4 className="sk-arcade text-[11px] leading-relaxed text-[#fff1e0] sm:text-xs">{skill.name}</h4>
-            <span className="sk-arcade mt-1.5 inline-block border px-1.5 py-1 text-[7px]" style={{ borderColor: color, color }}>
+            <h4 className="font-arcade text-[11px] leading-relaxed text-[#fff1e0] sm:text-xs">{skill.name}</h4>
+            <span className="font-arcade mt-1.5 inline-block border px-1.5 py-1 text-[7px]" style={{ borderColor: color, color }}>
               {skill.group}
             </span>
           </div>
         </div>
 
         <div className="relative mt-5">
-          <div className="sk-mono mb-1.5 flex items-end justify-between">
+          <div className="font-tech mb-1.5 flex items-end justify-between">
             <span className="text-[13px] text-[#c9906a]">PROFICIENCY</span>
-            <span className="sk-arcade text-sm" style={{ color }}>{skill.level}%</span>
+            <span className="font-arcade text-sm" style={{ color }}>{skill.level}%</span>
           </div>
           <div className="flex gap-[2px] border border-[#3a1808] bg-[#150a07] p-[3px]">
             {Array.from({ length: segs }).map((_, i) => (
@@ -248,14 +224,14 @@ function Decompile({ skill, onPick, onReset }) {
         </div>
 
         <div className="relative mt-5">
-          <h5 className="sk-arcade mb-2 text-[8px] text-[#ff6a00]">HOW I USE IT</h5>
-          <p className="sk-mono min-h-[4.2rem] text-[15px] leading-snug text-[#ffe2c4]">
+          <h5 className="font-arcade mb-2 text-[8px] text-[#ff6a00]">HOW I USE IT</h5>
+          <p className="font-tech min-h-[4.2rem] text-[15px] leading-snug text-[#ffe2c4]">
             {typed}
             <span className="sk-cursor ml-0.5 inline-block h-[1em] w-[0.5em] translate-y-[2px]" style={{ background: color }} />
           </p>
           <ul key={`l-${skill.id}`} className="mt-3 space-y-1.5">
             {skill.did.map((d, i) => (
-              <li key={d} className="sk-rise sk-mono flex gap-2 text-[14px] text-[#e6b793]" style={{ animationDelay: `${300 + i * 130}ms` }}>
+              <li key={d} className="sk-rise font-tech flex gap-2 text-[14px] text-[#e6b793]" style={{ animationDelay: `${300 + i * 130}ms` }}>
                 <span className="mt-[6px] h-2 w-2 shrink-0" style={{ background: color }} />
                 {d}
               </li>
@@ -264,14 +240,14 @@ function Decompile({ skill, onPick, onReset }) {
         </div>
 
         <div className="relative mt-5">
-          <h5 className="sk-arcade mb-2 text-[8px] text-[#ff6a00]">LINKED MODULES</h5>
+          <h5 className="font-arcade mb-2 text-[8px] text-[#ff6a00]">LINKED MODULES</h5>
           <div className="flex flex-wrap gap-1.5">
             {links.map((l) => (
               <button
                 key={l.id}
                 type="button"
                 onClick={() => onPick(l.id)}
-                className="sk-mono flex items-center gap-1.5 border border-[#5a2410] bg-[#150a07] px-2 py-1 text-[13px] text-[#ffb066] transition-colors hover:border-[#ff6a00] hover:bg-[#ff6a00]/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ffb000]"
+                className="font-tech flex items-center gap-1.5 border border-[#5a2410] bg-[#150a07] px-2 py-1 text-[13px] text-[#ffb066] transition-colors hover:border-[#ff6a00] hover:bg-[#ff6a00]/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ffb000]"
               >
                 <span className="h-2 w-2" style={{ background: GROUP_COLOR[l.group] }} />
                 {l.name}
@@ -281,13 +257,13 @@ function Decompile({ skill, onPick, onReset }) {
         </div>
 
         <div className="relative mt-auto flex items-center justify-between gap-3 border-t pt-4" style={{ borderColor: `${color}55` }}>
-          <p className="sk-mono text-[13px] text-[#8a5a40]">
+          <p className="font-tech text-[13px] text-[#8a5a40]">
             STATUS <span className="text-[#3dff8b]">{skill.status}</span>
           </p>
           <button
             type="button"
             onClick={onReset}
-            className="sk-arcade flex items-center gap-1.5 border border-[#5a2410] bg-[#150a07] px-2.5 py-2 text-[8px] text-[#ffb066] transition-colors hover:bg-[#ff6a00] hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ffb000]"
+            className="font-arcade flex items-center gap-1.5 border border-[#5a2410] bg-[#150a07] px-2.5 py-2 text-[8px] text-[#ffb066] transition-colors hover:bg-[#ff6a00] hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ffb000]"
           >
             <RotateCcw className="h-3 w-3" /> RESET VIEW
           </button>
@@ -633,7 +609,6 @@ export default function Skills3D() {
 
   return (
     <section id="skills" className="relative isolate overflow-hidden bg-transparent py-16 text-[#ffb066] sm:py-24">
-      <style>{CSS}</style>
 
       <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
         <div className="absolute inset-0" style={{ background: "transparent" }} />
@@ -643,10 +618,10 @@ export default function Skills3D() {
 
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <header className="mb-8 text-center">
-          <h2 className="sk-arcade mt-4 text-3xl text-[#fff3e6] sm:text-5xl" style={{ textShadow: "4px 4px 0 #7a2a00" }}>
+          <h2 className="font-arcade mt-4 text-3xl text-[#fff3e6] sm:text-5xl" style={{ textShadow: "4px 4px 0 #7a2a00" }}>
             TECH MATRIX
           </h2>
-          <p className="sk-mono mx-auto mt-5 max-w-xl text-base text-[#c9906a]">
+          <p className="font-tech mx-auto mt-5 max-w-xl text-base text-[#c9906a]">
             Drag to orbit the map. Click a node to open it, and follow the lines to see what each skill connects to.
           </p>
         </header>
@@ -661,11 +636,11 @@ export default function Skills3D() {
                 type="button"
                 aria-pressed={active}
                 onClick={() => chooseFilter(g)}
-                className="sk-arcade flex items-center gap-2 border px-3 py-2.5 text-[8px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffb000] sm:text-[9px]"
+                className="font-arcade flex items-center gap-2 border px-3 py-2.5 text-[8px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffb000] sm:text-[9px]"
                 style={{ borderColor: active ? c : "#4a2312", background: active ? c : "#0d0706", color: active ? "#0a0605" : "#c9906a" }}
               >
                 {g.toUpperCase()}
-                <span className="sk-mono text-[12px]" style={{ opacity: 0.8 }}>
+                <span className="font-tech text-[12px]" style={{ opacity: 0.8 }}>
                   {g === "All" ? SKILLS.length : `${SKILLS.filter((s) => s.group === g).length} · avg ${groupAvg(g)}`}
                 </span>
               </button>
@@ -726,13 +701,13 @@ export default function Skills3D() {
                     </span>
                   </span>
                   <span
-                    className="sk-arcade absolute -right-2 -top-2 border bg-[#0a0605] px-1 py-0.5 text-[7px]"
+                    className="font-arcade absolute -right-2 -top-2 border bg-[#0a0605] px-1 py-0.5 text-[7px]"
                     style={{ borderColor: color, color }}
                   >
                     {s.level}
                   </span>
                   <span
-                    className="sk-arcade pointer-events-none absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap border border-[#4a2312] bg-[#0a0605]/90 px-1.5 py-1 text-[7px] text-[#ffe2c4]"
+                    className="font-arcade pointer-events-none absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap border border-[#4a2312] bg-[#0a0605]/90 px-1.5 py-1 text-[7px] text-[#ffe2c4]"
                   >
                     {s.name}
                   </span>
@@ -743,13 +718,13 @@ export default function Skills3D() {
             {["left-2 top-2 border-l-2 border-t-2", "right-2 top-2 border-r-2 border-t-2", "bottom-2 left-2 border-b-2 border-l-2", "bottom-2 right-2 border-b-2 border-r-2"].map((c) => (
               <span key={c} className={`pointer-events-none absolute h-4 w-4 border-[#ff6a00] ${c}`} />
             ))}
-            <div className="sk-mono pointer-events-none absolute left-6 top-5 z-[2000] text-[13px] text-[#8a5a40]">
+            <div className="font-tech pointer-events-none absolute left-6 top-5 z-[2000] text-[13px] text-[#8a5a40]">
               <span ref={yawText}>YAW 000°  PITCH +00°</span>
             </div>
-            <div className="sk-mono pointer-events-none absolute right-6 top-5 z-[2000] text-[13px] text-[#8a5a40]">
+            <div className="font-tech pointer-events-none absolute right-6 top-5 z-[2000] text-[13px] text-[#8a5a40]">
               NODES <span className="text-[#ffb066]">{SKILLS.length}</span> · LINKS <span className="text-[#ffb066]">{EDGES.length}</span>
             </div>
-            <div className="sk-mono pointer-events-none absolute inset-x-6 bottom-5 z-[2000] flex items-center justify-between gap-3 text-[13px]">
+            <div className="font-tech pointer-events-none absolute inset-x-6 bottom-5 z-[2000] flex items-center justify-between gap-3 text-[13px]">
               <span className="truncate" style={{ color: GROUP_COLOR[focalSkill.group] }}>
                 <span className="sk-led mr-2 inline-block h-2 w-2" style={{ background: GROUP_COLOR[focalSkill.group] }} />
                 TRACING {focalSkill.name.toUpperCase()} · {ADJ[IDX[focalSkill.id]].size} LINKS
@@ -795,7 +770,7 @@ export default function Skills3D() {
               >
                 <span className="sk-notch-s relative m-[2px] flex flex-col items-center gap-1.5 bg-[#0d0706] px-2 py-2.5">
                   <Logo skill={s} className="h-7 w-7" textClass="text-[10px]" />
-                  <span className="sk-arcade text-[6px] leading-snug text-[#ffe2c4]">{s.name.split(" ")[0]}</span>
+                  <span className="font-arcade text-[6px] leading-snug text-[#ffe2c4]">{s.name.split(" ")[0]}</span>
                   <span className="h-1 w-full bg-[#26110a]">
                     <span className="block h-full" style={{ width: `${s.level}%`, background: color }} />
                   </span>
