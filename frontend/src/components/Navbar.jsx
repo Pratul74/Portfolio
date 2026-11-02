@@ -9,102 +9,42 @@ const LINKS = [
   { id: "contact", num: "05", label: "CONTACT", tag: "SIGNAL" },
 ];
 
-const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
 
-.nv{--a:#ff9e00;--a-hi:#ffb703;--a-lo:#e07a00;--a-pale:#fde047;font-family:'Share Tech Mono',ui-monospace,monospace}
-.nv-pixel{font-family:'VT323',ui-monospace,monospace}
+const FOCUS_RING =
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nv-hi";
 
-/* power-on */
-.nv-boot{animation:nvBoot .6s cubic-bezier(.2,.9,.3,1) both;transform-origin:center top}
-@keyframes nvBoot{0%{transform:scale(1,.02);filter:brightness(4);opacity:.5}55%{transform:scale(1,.1);filter:brightness(2.5)}100%{transform:none;filter:none;opacity:1}}
+const GLITCH =
+  "before:pointer-events-none before:absolute before:top-0 before:left-0 before:opacity-0 before:content-[attr(data-text)] " +
+  "after:pointer-events-none after:absolute after:top-0 after:left-0 after:opacity-0 after:content-[attr(data-text)] " +
+  "group-hover/logo:before:text-[#ff3d2e] group-hover/logo:before:opacity-90 " +
+  "group-hover/logo:after:text-[#2ee6c8] group-hover/logo:after:opacity-90 " +
+  "motion-safe:group-hover/logo:before:animate-nv-glitch-a motion-safe:group-hover/logo:after:animate-nv-glitch-b";
 
-/* pill */
-.nv-pill{border-radius:9999px;border:1px solid rgba(224,122,0,.5);transition:box-shadow .3s,border-color .3s;
-  box-shadow:0 15px 35px rgba(0,0,0,.85),0 0 20px rgba(255,158,0,.2),inset 0 0 15px rgba(255,158,0,.08)}
-.nv-pill[data-scrolled="true"]{border-color:rgba(255,158,0,.75);
-  box-shadow:0 10px 30px rgba(0,0,0,.9),0 0 30px rgba(255,158,0,.32),inset 0 0 15px rgba(255,158,0,.1)}
-.nv-bg{position:absolute;inset:0;border-radius:inherit;overflow:hidden;background:rgba(22,11,4,.78);
-  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
-.nv-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 3px)}
-.nv-sweep{position:absolute;top:0;bottom:0;left:0;width:28%;background:linear-gradient(90deg,transparent,rgba(255,190,110,.14),transparent);animation:nvSweep 7s linear infinite}
-@keyframes nvSweep{0%{transform:translateX(-100%)}60%,100%{transform:translateX(450%)}}
-.nv-progress{position:absolute;left:0;bottom:0;height:2px;width:100%;transform-origin:left center;transform:scaleX(0);
-  background:linear-gradient(90deg,var(--a-lo),var(--a-pale));box-shadow:0 0 8px var(--a)}
-.nv-row{transform:translateZ(16px)}
+const ICON_BTN =
+  "group/tip relative cursor-pointer items-center justify-center rounded-full bg-transparent p-2 text-nv " +
+  "transition-[color,background-color,scale] duration-200 hover:bg-[#3a1e00]/55 hover:text-nv-pale active:scale-90 " +
+  FOCUS_RING;
 
-/* logo */
-.nv-logo{display:flex;align-items:center;gap:.25rem;padding:.4rem .9rem;border-radius:9999px;text-decoration:none;transition:transform .15s}
-.nv-logo:hover{transform:scale(1.04)}
-.nv-logo:active{transform:scale(.96)}
-.nv-glitch{position:relative;color:var(--a-hi);text-shadow:0 0 8px rgba(255,158,0,.7)}
-.nv-glitch::before,.nv-glitch::after{content:attr(data-text);position:absolute;left:0;top:0;opacity:0;pointer-events:none}
-.nv-logo:hover .nv-glitch::before{opacity:.9;color:#ff3d2e;animation:nvGlitchA .35s steps(2,end) infinite}
-.nv-logo:hover .nv-glitch::after{opacity:.9;color:#2ee6c8;animation:nvGlitchB .35s steps(2,end) infinite}
-@keyframes nvGlitchA{0%{clip-path:inset(0 0 60% 0);transform:translate(-2px,0)}50%{clip-path:inset(40% 0 20% 0);transform:translate(2px,0)}100%{clip-path:inset(70% 0 0 0);transform:translate(-1px,0)}}
-@keyframes nvGlitchB{0%{clip-path:inset(60% 0 0 0);transform:translate(2px,0)}50%{clip-path:inset(10% 0 55% 0);transform:translate(-2px,0)}100%{clip-path:inset(30% 0 35% 0);transform:translate(1px,0)}}
-.nv-cursor{display:inline-block;width:8px;height:16px;margin-left:4px;background:var(--a);box-shadow:0 0 8px var(--a);animation:nvBlink 1s steps(2,end) infinite}
-@keyframes nvBlink{50%{opacity:.1}}
+const TIP =
+  "pointer-events-none absolute top-[calc(100%+8px)] left-1/2 -translate-x-1/2 rounded border border-[#7a3a1a] bg-black " +
+  "px-2 py-0.5 text-[10px] tracking-[.08em] whitespace-nowrap text-nv-hi opacity-0 transition-opacity duration-200 " +
+  "group-hover/tip:opacity-100 group-focus-visible/tip:opacity-100";
 
-/* 3D flip cards */
-.nv-card{position:relative;height:38px;perspective:600px}
-.nv-inner{position:relative;display:block;width:100%;height:100%;outline:none;text-decoration:none;
-  transform-style:preserve-3d;transition:transform .5s cubic-bezier(.3,1.4,.5,1)}
-.nv-on .nv-inner,.nv-inner:focus-visible{transform:rotateX(180deg)}
-@media (hover:hover){.nv-card:hover .nv-inner{transform:rotateX(180deg)}}
-.nv-face{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:.4rem;padding:0 1rem;
-  border-radius:9999px;font-size:.8rem;letter-spacing:.08em;white-space:nowrap;
-  backface-visibility:hidden;-webkit-backface-visibility:hidden}
-.nv-front{background:rgba(42,21,8,.5);border:1px solid rgba(255,158,0,.25);color:rgba(253,224,71,.85)}
-.nv-front i{font-style:normal;font-size:10px;color:rgba(224,122,0,.95)}
-.nv-back{transform:rotateX(180deg);font-weight:700;color:#fff;text-shadow:0 0 8px rgba(255,158,0,.7);
-  background:linear-gradient(135deg,rgba(255,158,0,.35),rgba(255,85,0,.5));border:1px solid rgba(255,158,0,.85);
-  box-shadow:0 0 15px rgba(255,158,0,.6),inset 0 0 8px rgba(255,158,0,.3)}
-.nv-back i{font-style:normal;font-size:10px;color:var(--a-pale)}
-.nv-pulse::after{content:"";position:absolute;inset:0;border-radius:9999px;border:1px solid var(--a-pale);pointer-events:none;animation:nvPulse .55s ease-out forwards}
-@keyframes nvPulse{from{opacity:.9;transform:scale(1)}to{opacity:0;transform:scale(1.35,1.9)}}
 
-/* utility controls */
-.nv-ctrl{display:flex;align-items:center;gap:.375rem;padding-left:.5rem;border-left:1px solid rgba(74,38,8,.8)}
-.nv-icon{position:relative;display:flex;align-items:center;justify-content:center;padding:.5rem;border:0;border-radius:9999px;
-  background:transparent;color:var(--a);cursor:pointer;transition:color .2s,background .2s,transform .15s}
-.nv-icon:hover{color:var(--a-pale);background:rgba(58,30,0,.55)}
-.nv-icon:active{transform:scale(.9)}
-.nv-icon:focus-visible,.nv-logo:focus-visible,.nv-m-link:focus-visible{outline:2px solid var(--a-hi);outline-offset:2px}
-.nv-tip{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);padding:2px 8px;border:1px solid #7a3a1a;border-radius:4px;
-  background:#000;color:var(--a-hi);font-size:10px;letter-spacing:.08em;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
-.nv-icon:hover .nv-tip,.nv-icon:focus-visible .nv-tip{opacity:1}
-.nv-led{display:inline-block;width:6px;height:6px;border-radius:9999px;background:var(--a);box-shadow:0 0 8px var(--a)}
-.nv-led[data-off="true"]{background:#5a2410;box-shadow:none}
+const FACE =
+  "absolute inset-0 flex items-center justify-center gap-[.4rem] rounded-full px-4 text-[.8rem] tracking-[.08em] whitespace-nowrap backface-hidden";
 
-/* burger */
-.nv-burger{position:relative;display:block;width:16px;height:12px}
-.nv-burger span{position:absolute;left:0;width:100%;height:2px;border-radius:1px;background:currentColor;transition:transform .25s,top .25s,opacity .2s}
-.nv-burger span:nth-child(1){top:0}
-.nv-burger span:nth-child(2){top:5px}
-.nv-burger span:nth-child(3){top:10px}
-.nv-burger.is-open span:nth-child(1){top:5px;transform:rotate(45deg)}
-.nv-burger.is-open span:nth-child(2){opacity:0}
-.nv-burger.is-open span:nth-child(3){top:5px;transform:rotate(-45deg)}
 
-/* mobile panel */
-.nv-panel{display:grid;grid-template-rows:0fr;margin-top:0;visibility:hidden;
-  transition:grid-template-rows .35s ease,margin-top .35s ease,visibility 0s linear .35s}
-.nv-panel.is-open{grid-template-rows:1fr;margin-top:8px;visibility:visible;transition-delay:0s}
-.nv-panel-inner{position:relative;border:1px solid rgba(255,158,0,.35);border-radius:1.25rem;background:rgba(14,7,3,.92);
-  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 15px 35px rgba(0,0,0,.85),0 0 20px rgba(255,158,0,.15)}
-.nv-m-link{display:flex;align-items:center;justify-content:space-between;padding:.7rem .9rem;border-radius:.75rem;
-  color:rgba(253,224,71,.8);text-decoration:none;font-size:.9rem;letter-spacing:.08em;transition:background .2s,color .2s,padding-left .2s}
-.nv-m-link:hover{background:rgba(255,158,0,.1);padding-left:1.2rem}
-.nv-m-link[aria-current="true"]{color:#fff;background:linear-gradient(90deg,rgba(255,158,0,.3),rgba(255,85,0,.12));text-shadow:0 0 8px rgba(255,158,0,.7)}
-.nv-m-link small{font-size:10px;color:var(--a-lo)}
-@media (min-width:1024px){.nv-panel{display:none}}
+const BAR =
+  "absolute left-0 h-0.5 w-full rounded-[1px] bg-current transition-[rotate,top,opacity] duration-250 motion-reduce:duration-10";
 
-@media (prefers-reduced-motion:reduce){
-  .nv-boot,.nv-sweep,.nv-cursor,.nv-pulse::after,.nv-glitch::before,.nv-glitch::after{animation:none!important}
-  .nv-inner,.nv-panel,.nv-burger span{transition-duration:.01s!important}
-}
-`;
+
+const M_LINK =
+  "flex items-center justify-between rounded-xl px-[.9rem] py-[.7rem] text-[.9rem] tracking-[.08em] text-nv-pale/80 no-underline " +
+  "transition-[background-color,color,padding] duration-200 hover:bg-nv/10 hover:pl-[1.2rem] " +
+  "aria-[current=true]:bg-linear-to-r aria-[current=true]:from-nv/30 aria-[current=true]:to-[#ff5500]/12 " +
+  "aria-[current=true]:text-white aria-[current=true]:text-glow " +
+  FOCUS_RING;
 
 export default function Navbar() {
   const [active, setActive] = useState("home");
@@ -294,52 +234,85 @@ export default function Navbar() {
   };
 
   return (
-    <header className="nv pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-3 sm:px-4">
-      <style>{CSS}</style>
-
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-3 font-tech sm:px-4">
       <nav
         aria-label="Primary"
-        className={`nv-boot pointer-events-auto relative w-full max-w-6xl transition-[margin] duration-300 ${scrolled ? "mt-2" : "mt-4"}`}
-        style={{ perspective: 1400 }}
+        className={`pointer-events-auto relative w-full max-w-6xl origin-top perspective-[1400px] transition-[margin] duration-300 motion-safe:animate-nv-boot ${
+          scrolled ? "mt-2" : "mt-4"
+        }`}
       >
-        <div ref={tiltRef} className="nv-pill relative" data-scrolled={scrolled} style={{ transformStyle: "preserve-3d" }}>
-          <div className="nv-bg" aria-hidden="true">
-            <div className="nv-scan" />
-            <div className="nv-sweep" />
-            <div ref={barRef} className="nv-progress" />
+
+        <div
+          ref={tiltRef}
+          data-scrolled={scrolled}
+          className="relative transform-3d rounded-full border border-nv-lo/50 shadow-nv-pill transition-[box-shadow,border-color] duration-300 data-[scrolled=true]:border-nv/75 data-[scrolled=true]:shadow-nv-pill-hot"
+        >
+          <div
+            className="absolute inset-0 overflow-hidden rounded-[inherit] bg-[#160b04]/78 backdrop-blur-[14px]"
+            aria-hidden="true"
+          >
+            <div className="absolute inset-0 bg-[repeating-linear-gradient(0deg,rgba(0,0,0,.28)_0_1px,transparent_1px_3px)]" />
+            <div className="absolute inset-y-0 left-0 w-[28%] bg-linear-to-r from-transparent via-[rgba(255,190,110,.14)] to-transparent motion-safe:animate-nv-sweep" />
+            <div
+              ref={barRef}
+              style={{ transform: "scaleX(0)" }}
+              className="absolute bottom-0 left-0 h-0.5 w-full origin-left bg-linear-to-r from-nv-lo to-nv-pale shadow-[0_0_8px_var(--color-nv)]"
+            />
           </div>
 
-          <div className="nv-row relative flex items-center justify-between gap-3 p-2">
-            <a href="#home" className="nv-logo" onClick={() => goTo("home")} onPointerEnter={hoverSound} aria-label="Pratul dev, back to top">
-              <span className="nv-pixel text-2xl" style={{ color: "var(--a)" }}>
-                &gt;
-              </span>
-              <span className="nv-glitch nv-pixel text-2xl tracking-wide" data-text="PRATUL.DEV">
+          <div className="relative flex translate-z-4 items-center justify-between gap-3 p-2">
+            <a
+              href="#home"
+              className={`group/logo flex items-center gap-1 rounded-full px-[.9rem] py-[.4rem] no-underline transition-transform duration-150 hover:scale-[1.04] active:scale-[.96] ${FOCUS_RING}`}
+              onClick={() => goTo("home")}
+              onPointerEnter={hoverSound}
+              aria-label="Pratul dev, back to top"
+            >
+              <span className="font-pixel text-2xl text-nv">&gt;</span>
+              <span
+                className={`relative font-pixel text-2xl tracking-wide text-nv-hi text-glow ${GLITCH}`}
+                data-text="PRATUL.DEV"
+              >
                 PRATUL.DEV
               </span>
-              <span className="nv-cursor" aria-hidden="true" />
+              <span
+                className="ml-1 inline-block h-4 w-2 bg-nv shadow-[0_0_8px_var(--color-nv)] motion-safe:animate-nv-blink"
+                aria-hidden="true"
+              />
             </a>
 
             <ul className="m-0 hidden list-none items-center gap-1 p-0 lg:flex xl:gap-2">
               {LINKS.map(({ id, num, label, tag }) => (
                 <li
                   key={id}
-                  className={`nv-card w-[100px] xl:w-[116px] ${active === id ? "nv-on" : ""} ${pulse === id ? "nv-pulse" : ""}`}
+                  className={`group/card relative h-[38px] w-[100px] perspective-[600px] xl:w-[116px] ${
+                    pulse === id
+                      ? "after:pointer-events-none after:absolute after:inset-0 after:rounded-full after:border after:border-nv-pale motion-safe:after:animate-nv-pulse"
+                      : ""
+                  }`}
                   onPointerEnter={hoverSound}
                 >
                   <a
                     href={`#${id}`}
-                    className="nv-inner"
+                    className={`relative block h-full w-full transform-3d no-underline outline-none transition-transform duration-500 ease-nv-spring group-hover/card:rotate-x-180 focus-visible:rotate-x-180 motion-reduce:duration-10 ${
+                      active === id ? "rotate-x-180" : ""
+                    }`}
                     aria-label={label}
                     aria-current={active === id ? "true" : undefined}
                     onClick={() => goTo(id)}
                   >
-                    <span className="nv-face nv-front" aria-hidden="true">
-                      <i>{num}</i>
+                    <span
+                      className={`${FACE} border border-nv/25 bg-[#2a1508]/50 text-nv-pale/85`}
+                      aria-hidden="true"
+                    >
+                      <span className="text-[10px] text-nv-lo/95">{num}</span>
                       <span>{label}</span>
                     </span>
-                    <span className="nv-face nv-back" aria-hidden="true">
-                      <i>&gt;</i>
+                    <span
+                      className={`${FACE} rotate-x-180 border border-nv/85 bg-linear-135 from-nv/35 to-[#ff5500]/50 font-bold text-white text-glow shadow-[0_0_15px_rgba(255,158,0,.6),inset_0_0_8px_rgba(255,158,0,.3)]`}
+                      aria-hidden="true"
+                    >
+                      <span className="text-[10px] text-nv-pale">&gt;</span>
                       <span>[{tag}]</span>
                     </span>
                   </a>
@@ -347,10 +320,10 @@ export default function Navbar() {
               ))}
             </ul>
 
-            <div className="nv-ctrl">
+            <div className="flex items-center gap-1.5 border-l border-[#4a2608]/80 pl-2">
               <button
                 type="button"
-                className="nv-icon"
+                className={`${ICON_BTN} flex`}
                 onClick={toggleSfx}
                 aria-label={sfx ? "Mute synth sound" : "Enable synth sound"}
                 aria-pressed={sfx}
@@ -364,15 +337,18 @@ export default function Navbar() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
                   </svg>
                 )}
-                <span className="nv-tip" aria-hidden="true">
-                  <span className="nv-led mr-1.5" data-off={!sfx} />
+                <span className={TIP} aria-hidden="true">
+                  <span
+                    className="mr-1.5 inline-block size-1.5 rounded-full bg-nv shadow-[0_0_8px_var(--color-nv)] data-[off=true]:bg-[#5a2410] data-[off=true]:shadow-none"
+                    data-off={!sfx}
+                  />
                   SYNTH: {sfx ? "ON" : "OFF"}
                 </span>
               </button>
 
               <a
                 href="#system-status"
-                className="nv-icon hidden lg:flex"
+                className={`${ICON_BTN} hidden lg:flex`}
                 aria-label="Open terminal"
                 onClick={sounds.terminal}
                 onPointerEnter={hoverSound}
@@ -380,7 +356,7 @@ export default function Navbar() {
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                <span className="nv-tip" aria-hidden="true">TERMINAL</span>
+                <span className={TIP} aria-hidden="true">TERMINAL</span>
               </a>
 
               <div className="hidden pl-1 xl:block">
@@ -389,7 +365,7 @@ export default function Navbar() {
 
               <button
                 type="button"
-                className="nv-icon lg:hidden"
+                className={`${ICON_BTN} flex lg:hidden`}
                 onClick={() => {
                   sounds.menu();
                   setOpen((o) => !o);
@@ -398,25 +374,32 @@ export default function Navbar() {
                 aria-expanded={open}
                 aria-controls="nv-menu"
               >
-                <span className={`nv-burger ${open ? "is-open" : ""}`} aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
+                <span className="relative block h-3 w-4" aria-hidden="true">
+                  <span className={`${BAR} ${open ? "top-[5px] rotate-45" : "top-0"}`} />
+                  <span className={`${BAR} top-[5px] ${open ? "opacity-0" : ""}`} />
+                  <span className={`${BAR} ${open ? "top-[5px] -rotate-45" : "top-[10px]"}`} />
                 </span>
               </button>
             </div>
           </div>
         </div>
 
-        <div id="nv-menu" className={`nv-panel ${open ? "is-open" : ""}`}>
+        <div
+          id="nv-menu"
+          className={`grid lg:hidden motion-reduce:[transition-duration:.01s]! ${
+            open
+              ? "visible mt-2 grid-rows-[1fr] [transition:grid-template-rows_.35s_ease,margin-top_.35s_ease,visibility_0s_linear_0s]"
+              : "invisible mt-0 grid-rows-[0fr] [transition:grid-template-rows_.35s_ease,margin-top_.35s_ease,visibility_0s_linear_.35s]"
+          }`}
+        >
           <div className="overflow-hidden rounded-[1.25rem]">
-            <div className="nv-panel-inner p-2">
+            <div className="relative rounded-[1.25rem] border border-nv/35 bg-[#0e0703]/92 p-2 shadow-nv-panel backdrop-blur-[14px]">
               <ul className="m-0 flex list-none flex-col gap-1 p-0">
                 {LINKS.map(({ id, num, label, tag }) => (
                   <li key={id}>
                     <a
                       href={`#${id}`}
-                      className="nv-m-link"
+                      className={M_LINK}
                       aria-current={active === id ? "true" : undefined}
                       onClick={() => {
                         goTo(id);
@@ -426,21 +409,21 @@ export default function Navbar() {
                       <span>
                         [{num}] {label}
                       </span>
-                      <small>[{tag}]</small>
+                      <small className="text-[10px] text-nv-lo">[{tag}]</small>
                     </a>
                   </li>
                 ))}
                 <li>
                   <a
                     href="#system-status"
-                    className="nv-m-link"
+                    className={M_LINK}
                     onClick={() => {
                       sounds.terminal();
                       setOpen(false);
                     }}
                   >
                     <span>&gt; TERMINAL</span>
-                    <small>[OPEN]</small>
+                    <small className="text-[10px] text-nv-lo">[OPEN]</small>
                   </a>
                 </li>
                 <li className="px-3 py-2">
