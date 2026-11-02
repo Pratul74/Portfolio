@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import SystemStatus from "./SystemStatus";
+import SystemStatus from "../effects/SystemStatus";
 
 const LINKS = [
   { id: "home", num: "01", label: "HOME", tag: "EXECUTE" },
