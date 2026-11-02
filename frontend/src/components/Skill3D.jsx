@@ -195,7 +195,7 @@ function Decompile({ skill, onPick, onReset }) {
     <div className="h-full" style={{ perspective: 1000 }} onPointerMove={onMove} onPointerLeave={onLeave}>
       <div
         ref={tiltRef}
-        className="relative flex h-full flex-col border-2 bg-[#0b0605] p-5 transition-transform duration-150"
+        className="relative flex h-full flex-col border-2 bg-[black] p-5 transition-transform duration-150"
         style={{ borderColor: color, boxShadow: `0 0 36px -8px ${color}`, transformStyle: "preserve-3d" }}
       >
         <div className="sk-scan pointer-events-none absolute inset-0 opacity-70" />
@@ -636,7 +636,7 @@ export default function Skills3D() {
       <style>{CSS}</style>
 
       <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-        <div className="absolute inset-0" style={{ background: "radial-gradient(55% 45% at 35% 50%, rgba(255,90,20,.18), transparent 70%), linear-gradient(#070404, #100605 60%, #070404)" }} />
+        <div className="absolute inset-0" style={{ background: "transparent" }} />
         <div className="sk-dots absolute inset-0 opacity-[.07]" />
         <div className="sk-scan absolute inset-0 opacity-60" />
       </div>
@@ -681,7 +681,7 @@ export default function Skills3D() {
             aria-label="3D skill map. Use arrow keys to rotate."
             onPointerDown={onDown}
             onKeyDown={onKey}
-            className="relative h-[480px] cursor-grab select-none overflow-hidden border-2 border-[#5a2410] bg-[#0a0504]/90 outline-none active:cursor-grabbing focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ffb000] sm:h-[580px] lg:col-span-2"
+            className="relative h-[480px] cursor-grab select-none overflow-hidden border-2 border-[#5a2410] bg-[black]/90 outline-none active:cursor-grabbing focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ffb000] sm:h-[580px] lg:col-span-2"
             style={{ touchAction: "pan-y", boxShadow: "0 0 40px -12px rgba(255,90,20,.5)" }}
           >
             <div
@@ -762,7 +762,7 @@ export default function Skills3D() {
                 type="button"
                 aria-label={auto ? "Pause auto-rotate" : "Start auto-rotate"}
                 onClick={() => { sim.current.lastInteract = performance.now(); setAuto((a) => !a); }}
-                className="flex h-8 w-8 items-center justify-center border border-[#5a2410] bg-[#150a07] text-[#ffb066] hover:border-[#ff6a00] hover:bg-[#ff6a00]/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ffb000]"
+                className="flex h-8 w-8 items-center justify-center border border-[#5a2410] bg-[#22120f] text-[#ffb066] hover:border-[#ff6a00] hover:bg-[#ff6a00]/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ffb000]"
               >
                 {auto ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
               </button>
