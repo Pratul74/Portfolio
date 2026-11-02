@@ -18,6 +18,14 @@
   --animate-pj-spark: pj-spark 2.4s ease-in-out infinite;
   --animate-pj-node: pj-node 5s ease-in-out infinite;
   --animate-pj-crt-on: pj-crt-on 0.45s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+  --animate-sk-orbit: sk-spin 4s linear infinite;
+  --animate-sk-core: sk-pulse 3.2s ease-in-out infinite;
+  --animate-sk-ping: sk-ping 1.6s ease-out infinite;
+  --animate-sk-led: sk-blink 1.4s steps(2, end) infinite;
+  --animate-sk-cursor: sk-blink 1s steps(2, end) infinite;
+  --animate-sk-rise: sk-rise 0.4s ease-out both;
+  --animate-sk-boot: sk-boot 0.35s steps(4, end) both;
+  --animate-sk-radar: sk-spin 7s linear infinite;
  
   @keyframes pj-grid { to { background-position: 0 46px; } }
   @keyframes pj-sweep { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
@@ -50,6 +58,196 @@
     55% { transform: scale(1, 0.04); filter: brightness(3); }
     100% { transform: none; filter: none; opacity: 1; }
   }
+  @keyframes sk-spin {
+    to {
+        transform: rotate(360deg);
+    }
+  }
+
+  @keyframes sk-pulse {
+      50% {
+          opacity: .55;
+          transform: scale(1.08);
+      }
+  }
+
+  @keyframes sk-ping {
+      0% {
+          opacity: .9;
+          transform: scale(1);
+      }
+
+      100% {
+          opacity: 0;
+          transform: scale(1.5);
+      }
+  }
+
+  @keyframes sk-blink {
+      50% {
+          opacity: .15;
+      }
+  }
+
+  @keyframes sk-rise {
+      from {
+          opacity: 0;
+          transform: translateX(-10px);
+      }
+
+      to {
+          opacity: 1;
+          transform: none;
+      }
+  }
+
+  @keyframes sk-boot {
+      from {
+          opacity: 0;
+          transform: scaleY(.1);
+      }
+
+      to {
+          opacity: 1;
+          transform: none;
+      }
+  }
+}
+
+@utility sk-orbit {
+    animation: var(--animate-sk-orbit);
+}
+
+@utility sk-core {
+    animation: var(--animate-sk-core);
+}
+
+@utility sk-ping {
+    animation: var(--animate-sk-ping);
+}
+
+@utility sk-led {
+    animation: var(--animate-sk-led);
+}
+
+@utility sk-cursor {
+    animation: var(--animate-sk-cursor);
+}
+
+@utility sk-rise {
+    animation: var(--animate-sk-rise);
+}
+
+@utility sk-boot {
+    animation: var(--animate-sk-boot);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sk-radar,
+    .sk-core,
+    .sk-ping,
+    .sk-led,
+    .sk-cursor,
+    .sk-rise,
+    .sk-boot,
+    .sk-orbit {
+        animation: none !important;
+    }
+}
+
+@utility sk-scan {
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(0, 0, 0, .28) 0 1px,
+            transparent 1px 3px
+        );
+}
+
+@utility sk-dots {
+    background-image:
+        radial-gradient(
+            rgba(255, 106, 0, .5) 1px,
+            transparent 1px
+        );
+
+    background-size: 24px 24px;
+}
+
+@utility sk-radar {
+    background:
+        conic-gradient(
+            from 0deg,
+            rgba(255, 106, 0, .28),
+            rgba(255, 106, 0, 0) 28%,
+            rgba(255, 106, 0, 0) 100%
+        );
+
+    -webkit-mask-image:
+        radial-gradient(
+            closest-side,
+            #000 30%,
+            transparent 100%
+        );
+
+    mask-image:
+        radial-gradient(
+            closest-side,
+            #000 30%,
+            transparent 100%
+        );
+
+    animation: var(--animate-sk-radar);
+}
+
+@utility sk-notch {
+    clip-path: polygon(
+        0 8px,
+        4px 8px,
+        4px 4px,
+        8px 4px,
+        8px 0,
+        calc(100% - 8px) 0,
+        calc(100% - 8px) 4px,
+        calc(100% - 4px) 4px,
+        calc(100% - 4px) 8px,
+        100% 8px,
+        100% calc(100% - 8px),
+        calc(100% - 4px) calc(100% - 8px),
+        calc(100% - 4px) calc(100% - 4px),
+        calc(100% - 8px) calc(100% - 4px),
+        calc(100% - 8px) 100%,
+        8px 100%,
+        8px calc(100% - 4px),
+        4px calc(100% - 4px),
+        4px calc(100% - 8px),
+        0 calc(100% - 8px)
+    );
+}
+
+@utility sk-notch-s {
+    clip-path: polygon(
+        0 4px,
+        2px 4px,
+        2px 2px,
+        4px 2px,
+        4px 0,
+        calc(100% - 4px) 0,
+        calc(100% - 4px) 2px,
+        calc(100% - 2px) 2px,
+        calc(100% - 2px) 4px,
+        100% 4px,
+        100% calc(100% - 4px),
+        calc(100% - 2px) calc(100% - 4px),
+        calc(100% - 2px) calc(100% - 2px),
+        calc(100% - 4px) calc(100% - 2px),
+        calc(100% - 4px) 100%,
+        4px 100%,
+        4px calc(100% - 2px),
+        2px calc(100% - 2px),
+        2px calc(100% - 4px),
+        0 calc(100% - 4px)
+    );
 }
 
 html{
